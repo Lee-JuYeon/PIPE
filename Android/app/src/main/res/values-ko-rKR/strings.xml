@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PIPE</string>
+    <string name="bottom_navi_item_money">지원금</string>
+    <string name="bottom_navi_item_job">취업</string>
+    <string name="bottom_navi_item_place">공간</string>
+    <string name="bottom_navi_item_my">MY</string>
+    <string name="fragment_my_memo_hint">중요한 일이 있다면 여기에 적어주세요</string>
+    <string name="fragment_money_search">키워드를 검색하세요</string>
+    <string name="place_tab_item_subscription_presale">청약, 분양권</string>
+    <string name="place_tab_item_myhome">내집마련</string>
+</resources>
