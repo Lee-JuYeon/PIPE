@@ -57,6 +57,5 @@ class MoneyFragment : Fragment(){
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Log.d("mDebug", "MoneyFrament의 상태 : onDestroyView")
     }
 }
