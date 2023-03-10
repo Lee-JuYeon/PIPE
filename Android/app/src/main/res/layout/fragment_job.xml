@@ -6,13 +6,28 @@
 
     </data>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/job_tablayout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="job fragment"/>
-    </RelativeLayout>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintWidth_default="spread"/>
+
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/job_viewpager2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_default="spread"
+            app:layout_constraintTop_toBottomOf="@id/job_tablayout"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
