@@ -9,4 +9,9 @@
     <string name="fragment_money_search">키워드를 검색하세요</string>
     <string name="place_tab_item_subscription_presale">청약, 분양권</string>
     <string name="place_tab_item_myhome">내집마련</string>
+    <string name="job_tab_item_jobfair">취업 박람회</string>
+    <string name="job_tab_item_contest">공모전</string>
+    <string name="job_tab_item_employment">취직</string>
+    <string name="job_tab_item_certification">자격증취득</string>
+    <string name="place_tab_item_office">창업공간</string>
 </resources>
