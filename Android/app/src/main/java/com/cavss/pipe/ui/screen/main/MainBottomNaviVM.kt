@@ -13,6 +13,6 @@ class MainBottomNaviVM : ViewModel() {
 
 
     init {
-        setFragmentType(MainBottomEnum.PLACE)
+        setFragmentType(MainBottomEnum.MY)
     }
 }

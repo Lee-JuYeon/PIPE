@@ -37,20 +37,6 @@ class MainActivity : AppCompatActivity() {
             Log.e("mException", "MainActivity, setInit  // Exception : ${e.message}")
         }
     }
-
-    private lateinit var binding: ActivityMainBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding.run{
-
-        }
-        setInit()
-        setContentView(binding.root)
-    }
-
-
-
     private fun chageFragment(frag : MainBottomEnum){
         try{
             val manager = (this as FragmentActivity).supportFragmentManager.beginTransaction()
@@ -108,12 +94,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+    private lateinit var binding: ActivityMainBinding
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding.run{
+            setInit()
+            setBottomNavigation(
+                bottomNavi = this@run.mainBottomNavi,
+                frame = this@run.mainFrame
+            )
+        }
+        setContentView(binding.root)
+    }
+
     override fun onStart() {
         super.onStart()
-        setBottomNavigation(
-            bottomNavi = binding.mainBottomNavi,
-            frame = binding.mainFrame
-        )
+
     }
 
     private fun setNull(){
