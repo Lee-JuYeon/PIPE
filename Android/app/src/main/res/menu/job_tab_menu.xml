@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:title="@string/job_tab_item_employment" />
+    <item
+        android:title="@string/job_tab_item_jobfair" />
+    <item
+        android:title="@string/job_tab_item_contest" />
+    <item
+        android:title="@string/job_tab_item_certification" />
+</menu>
