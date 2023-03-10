@@ -15,47 +15,43 @@ import java.util.Calendar
 
 class MyFragment : Fragment() {
 
-    private lateinit var binding : FragmentMyBinding
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentMyBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-
     private var customCalendarView : CustomCalendarView? = null
     private fun setCustomViews(){
         customCalendarView = CustomCalendarView()
         customCalendarView?.setCalenderView(binding.myCalendar, requireContext())
     }
 
+    private lateinit var binding : FragmentMyBinding
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = FragmentMyBinding.inflate(inflater, container, false)
+        binding.run {
+            setCustomViews()
+        }
+        return binding.root
+    }
+
+
+
 
     override fun onStart() {
         super.onStart()
-        Log.d("mDebug", "MyFragment 상태 : onStart")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("mDebug", "MyFragment 상태 : onResume")
     }
 
     override fun onPause() {
         super.onPause()
-        Log.d("mDebug", "MyFragment 상태 : onPause")
-//        Log.d("mDebug", "다른 프래그먼트로 넘어가면 호출됨")
     }
 
 
     override fun onStop() {
         super.onStop()
-        Log.d("mDebug", "MyFragment 상태 : onStop")
-//        Log.d("mDebug", "다른 프래그먼트로 넘어가면 호출됨")
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Log.d("mDebug", "MyFragment 상태 : onDestroyView")
-//        Log.d("mDebug", "다른 프래그먼트로 넘어가면 호출됨")
     }
 
 }
