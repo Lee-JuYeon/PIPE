@@ -1,0 +1,21 @@
+{
+  "name": "adminapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "juyeon1026",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^3.13.0",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.3.1",
+    "graphql": "^15.8.0",
+    "graphql-depth-limit": "^1.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "postgraphile": "^4.13.0"
+  },
+  "type": "module"
+}
