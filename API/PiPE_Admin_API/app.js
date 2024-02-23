@@ -6,8 +6,8 @@ import {
 } from 'apollo-server';
 import depthLimit from 'graphql-depth-limit';
 import { customAuthorization } from './secure/authorization.js';
-import { customResolver } from './queries/resolvers/customResolver.js';
-import { customTypeDefs } from './queries/typeDefs/customTypeDef.js';
+import { customResolvers } from './queries/resolvers/resolvers.js';
+import { customTypeDefs } from './queries/typeDefs/typeDefs.js';
 
 const formatError = err => {
     console.error("--- GraphQL Error ---");
@@ -21,7 +21,7 @@ const formatError = err => {
 
 const server = new ApolloServer({ 
     typeDefs: customTypeDefs,
-    resolvers: customResolver,
+    resolvers: customResolvers,
     // context: ({ req }) => { 
     //     // context에서 모든 요청 정보를 인자(req)로 받으며, 
     //     // 모든 resolver 함수에서 공유할 수 있는 데이터를 제공하는 역

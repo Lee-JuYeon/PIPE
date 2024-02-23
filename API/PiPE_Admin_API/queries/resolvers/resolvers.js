@@ -5,235 +5,130 @@ import {
     AuthenticationError
 } from 'apollo-server';
 import {
-    // postgraphileDB,
+    postgraphileDB,
     dummyDB,
     dummyJobDB
-} from '../../db/postgraphile.js';
+} from '../../db/customPostgresQL.js';
 
-const customResolver = {
-    Query : {
-        readJobFairs: async (parent, args, context, info) => {
-            try {
-                // const jobFairs = await dummyJobDB.jobFairs; 
-                const jobFairs = dummyJobDB.jobFairs;
-                return jobFairs;
-            } catch (error) {
-                console.error('Error fetching job fairs:', error);
-                throw error;
-            }
-        },
-        readJobContests: async (parent, args, context, info) => {
-            try {
-                // const jobContests = await fetchJobContestsFromDatabase(); 
-                const jobContests = dummyJobDB.jobContests
-                return jobContests;
-            } catch (error) {
-                console.error('Error fetching job contests:', error);
-                throw error;
-            }
-        },
-        readCertifications: async (parent, args, context, info) => {
-            try {
-                // const jobContests = await fetchJobContestsFromDatabase(); 
-                const jobContests = dummyJobDB.jobContests
-                return jobContests;
-            } catch (error) {
-                console.error('Error fetching job contests:', error);
-                throw error;
-            }
-        },
-        readPortfolios: async (parent, args, context, info) => {
-            try {
-                // const jobContests = await fetchJobContestsFromDatabase(); 
-                const jobContests = dummyJobDB.jobContests
-                return jobContests;
-            } catch (error) {
-                console.error('Error fetching job contests:', error);
-                throw error;
-            }
-        },
-        readCompanies: async (parent, args, context, info) => {
-            try {
-                // const jobContests = await fetchJobContestsFromDatabase(); 
-                const jobContests = dummyJobDB.jobContests
-                return jobContests;
-            } catch (error) {
-                console.error('Error fetching job contests:', error);
-                throw error;
-            }
-        },
-        readRewards: async (parent, args, context, info) => {
-            try {
-                // const jobContests = await fetchJobContestsFromDatabase(); 
-                const jobContests = dummyJobDB.jobContests
-                return jobContests;
-            } catch (error) {
-                console.error('Error fetching job contests:', error);
-                throw error;
-            }
-        },
-        readBanks: async (parent, args, context, info) => {
-            try {
-                // const jobContests = await fetchJobContestsFromDatabase(); 
-                const jobContests = dummyJobDB.jobContests
-                return jobContests;
-            } catch (error) {
-                console.error('Error fetching job contests:', error);
-                throw error;
-            }
-        },
-        readMyHome: async (parent, args, context, info) => {
-            try {
-                // const jobContests = await fetchJobContestsFromDatabase(); 
-                const jobContests = dummyJobDB.jobContests
-                return jobContests;
-            } catch (error) {
-                console.error('Error fetching job contests:', error);
-                throw error;
-            }
-        },
-        readPreSaleRights: async (parent, args, context, info) => {
-            try {
-                // const jobContests = await fetchJobContestsFromDatabase(); 
-                const jobContests = dummyJobDB.jobContests
-                return jobContests;
-            } catch (error) {
-                console.error('Error fetching job contests:', error);
-                throw error;
-            }
-        },
-        readSubscriptions: async (parent, args, context, info) => {
-            try {
-                // const jobContests = await fetchJobContestsFromDatabase(); 
-                const jobContests = dummyJobDB.jobContests
-                return jobContests;
-            } catch (error) {
-                console.error('Error fetching job contests:', error);
-                throw error;
-            }
-        },
-        readCheapOffices: async (parent, args, context, info) => {
-            try {
-                // const jobContests = await fetchJobContestsFromDatabase(); 
-                const jobContests = dummyJobDB.jobContests
-                return jobContests;
-            } catch (error) {
-                console.error('Error fetching job contests:', error);
-                throw error;
-            }
-        }
-    },
+import { readResolvers } from './query/readResolvers.js';
+import { createResolvers } from './mutation/createResolvers.js';
+import { updateResolvers } from './mutation/updateResolvers.js';
+import { deleteResolvers } from './mutation/deleteResolvers.js';
+
+const customResolvers = {
+    Query : readResolvers,
     Mutation : {
-        createJobFairModel: async (parent, { model }, context, info) => {
-            try {
-                // const jobContests = await fetchJobContestsFromDatabase(); 
-                const jobContests = dummyJobDB.jobContests
-                return jobContests;
-            } catch (error) {
-                console.error('Error fetching job contests:', error);
-                throw error;
-            }
-        },
-        createJobContestModel: async (parent, { model }, context, info) => {
-            try {
-                // const jobContests = await fetchJobContestsFromDatabase(); 
-                const jobContests = dummyJobDB.jobContests
-                return jobContests;
-            } catch (error) {
-                console.error('Error fetching job contests:', error);
-                throw error;
-            }
-        },
-        createCertificationModel: async (parent, { model }, context, info) => {
-            try {
-                // const jobContests = await fetchJobContestsFromDatabase(); 
-                const jobContests = dummyJobDB.jobContests
-                return jobContests;
-            } catch (error) {
-                console.error('Error fetching job contests:', error);
-                throw error;
-            }
-        },
-        createPortfolioModel: async (parent, { model }, context, info) => {
-            try {
-                // const jobContests = await fetchJobContestsFromDatabase(); 
-                const jobContests = dummyJobDB.jobContests
-                return jobContests;
-            } catch (error) {
-                console.error('Error fetching job contests:', error);
-                throw error;
-            }
-        },
-        createCompanyModel: async (parent, { model }, context, info) => {
-            try {
-                // const jobContests = await fetchJobContestsFromDatabase(); 
-                const jobContests = dummyJobDB.jobContests
-                return jobContests;
-            } catch (error) {
-                console.error('Error fetching job contests:', error);
-                throw error;
-            }
-        },
-        createRewardModel: async (parent, { model }, context, info) => {
-            try {
-                // const jobContests = await fetchJobContestsFromDatabase(); 
-                const jobContests = dummyJobDB.jobContests
-                return jobContests;
-            } catch (error) {
-                console.error('Error fetching job contests:', error);
-                throw error;
-            }
-        },
-        createBankModel: async (parent, { model }, context, info) => {
-            try {
-                // const jobContests = await fetchJobContestsFromDatabase(); 
-                const jobContests = dummyJobDB.jobContests
-                return jobContests;
-            } catch (error) {
-                console.error('Error fetching job contests:', error);
-                throw error;
-            }
-        },
-        createMyHomeModel: async (parent, { model }, context, info) => {
-            try {
-                // const jobContests = await fetchJobContestsFromDatabase(); 
-                const jobContests = dummyJobDB.jobContests
-                return jobContests;
-            } catch (error) {
-                console.error('Error fetching job contests:', error);
-                throw error;
-            }
-        },
-        createPreSaleRightModel: async (parent, { model }, context, info) => {
-            try {
-                // const jobContests = await fetchJobContestsFromDatabase(); 
-                const jobContests = dummyJobDB.jobContests
-                return jobContests;
-            } catch (error) {
-                console.error('Error fetching job contests:', error);
-                throw error;
-            }
-        },
-        createSubscriptionModel: async (parent, { model }, context, info) => {
-            try {
-                // const jobContests = await fetchJobContestsFromDatabase(); 
-                const jobContests = dummyJobDB.jobContests
-                return jobContests;
-            } catch (error) {
-                console.error('Error fetching job contests:', error);
-                throw error;
-            }
-        },
-        createCheapOfficeModel: async (parent, { model }, context, info) => {
-            try {
-                // const jobContests = await fetchJobContestsFromDatabase(); 
-                const jobContests = dummyJobDB.jobContests
-                return jobContests;
-            } catch (error) {
-                console.error('Error fetching job contests:', error);
-                throw error;
-            }
-        },
+        ...createResolvers,
+        // createJobFairModel: async (parent, { model }, context, info) => {
+        //     try {
+        //         // const jobContests = await fetchJobContestsFromDatabase(); 
+        //         const jobContests = dummyJobDB.jobContests
+        //         return jobContests;
+        //     } catch (error) {
+        //         console.error('Error fetching job contests:', error);
+        //         throw error;
+        //     }
+        // },
+        // createJobContestModel: async (parent, { model }, context, info) => {
+        //     try {
+        //         // const jobContests = await fetchJobContestsFromDatabase(); 
+        //         const jobContests = dummyJobDB.jobContests
+        //         return jobContests;
+        //     } catch (error) {
+        //         console.error('Error fetching job contests:', error);
+        //         throw error;
+        //     }
+        // },
+        // createCertificationModel: async (parent, { model }, context, info) => {
+        //     try {
+        //         // const jobContests = await fetchJobContestsFromDatabase(); 
+        //         const jobContests = dummyJobDB.jobContests
+        //         return jobContests;
+        //     } catch (error) {
+        //         console.error('Error fetching job contests:', error);
+        //         throw error;
+        //     }
+        // },
+        // createPortfolioModel: async (parent, { model }, context, info) => {
+        //     try {
+        //         // const jobContests = await fetchJobContestsFromDatabase(); 
+        //         const jobContests = dummyJobDB.jobContests
+        //         return jobContests;
+        //     } catch (error) {
+        //         console.error('Error fetching job contests:', error);
+        //         throw error;
+        //     }
+        // },
+        // createCompanyModel: async (parent, { model }, context, info) => {
+        //     try {
+        //         // const jobContests = await fetchJobContestsFromDatabase(); 
+        //         const jobContests = dummyJobDB.jobContests
+        //         return jobContests;
+        //     } catch (error) {
+        //         console.error('Error fetching job contests:', error);
+        //         throw error;
+        //     }
+        // },
+        // createRewardModel: async (parent, { model }, context, info) => {
+        //     try {
+        //         // const jobContests = await fetchJobContestsFromDatabase(); 
+        //         const jobContests = dummyJobDB.jobContests
+        //         return jobContests;
+        //     } catch (error) {
+        //         console.error('Error fetching job contests:', error);
+        //         throw error;
+        //     }
+        // },
+        // createBankModel: async (parent, { model }, context, info) => {
+        //     try {
+        //         // const jobContests = await fetchJobContestsFromDatabase(); 
+        //         const jobContests = dummyJobDB.jobContests
+        //         return jobContests;
+        //     } catch (error) {
+        //         console.error('Error fetching job contests:', error);
+        //         throw error;
+        //     }
+        // },
+        // createMyHomeModel: async (parent, { model }, context, info) => {
+        //     try {
+        //         // const jobContests = await fetchJobContestsFromDatabase(); 
+        //         const jobContests = dummyJobDB.jobContests
+        //         return jobContests;
+        //     } catch (error) {
+        //         console.error('Error fetching job contests:', error);
+        //         throw error;
+        //     }
+        // },
+        // createPreSaleRightModel: async (parent, { model }, context, info) => {
+        //     try {
+        //         // const jobContests = await fetchJobContestsFromDatabase(); 
+        //         const jobContests = dummyJobDB.jobContests
+        //         return jobContests;
+        //     } catch (error) {
+        //         console.error('Error fetching job contests:', error);
+        //         throw error;
+        //     }
+        // },
+        // createSubscriptionModel: async (parent, { model }, context, info) => {
+        //     try {
+        //         // const jobContests = await fetchJobContestsFromDatabase(); 
+        //         const jobContests = dummyJobDB.jobContests
+        //         return jobContests;
+        //     } catch (error) {
+        //         console.error('Error fetching job contests:', error);
+        //         throw error;
+        //     }
+        // },
+        // createCheapOfficeModel: async (parent, { model }, context, info) => {
+        //     try {
+        //         // const jobContests = await fetchJobContestsFromDatabase(); 
+        //         const jobContests = dummyJobDB.jobContests
+        //         return jobContests;
+        //     } catch (error) {
+        //         console.error('Error fetching job contests:', error);
+        //         throw error;
+        //     }
+        // },
 
         updateJobFairModel: async (parent, { model }, context, info) => {
             try {
@@ -457,11 +352,11 @@ const customResolver = {
             }
         }
     }
-}
+};
 
 export {
-    customResolver
-}
+    customResolvers
+};
 
 
 // if (!user) throw new AuthenticationError("not authenticated");
@@ -540,3 +435,366 @@ export {
 // module.exports = {
 //     customResolver : customResolver
 // }
+
+/*
+import {
+    ApolloServer,
+    gql, 
+    ApolloError, 
+    AuthenticationError
+} from 'apollo-server';
+import {
+    postgraphileDB,
+    dummyDB,
+    dummyJobDB
+} from '../../db/customPostgresQL.js';
+
+import { readResolvers } from './query/readResolvers.js';
+import { createResolvers } from './mutation/createResolvers.js';
+import { updateResolvers } from './mutation/updateResolvers.js';
+import { deleteResolvers } from './mutation/deleteResolvers.js';
+
+const customResolvers = {
+    Query : readResolvers,
+    Mutation : {
+        ...createResolvers,
+        // createJobFairModel: async (parent, { model }, context, info) => {
+        //     try {
+        //         // const jobContests = await fetchJobContestsFromDatabase(); 
+        //         const jobContests = dummyJobDB.jobContests
+        //         return jobContests;
+        //     } catch (error) {
+        //         console.error('Error fetching job contests:', error);
+        //         throw error;
+        //     }
+        // },
+        // createJobContestModel: async (parent, { model }, context, info) => {
+        //     try {
+        //         // const jobContests = await fetchJobContestsFromDatabase(); 
+        //         const jobContests = dummyJobDB.jobContests
+        //         return jobContests;
+        //     } catch (error) {
+        //         console.error('Error fetching job contests:', error);
+        //         throw error;
+        //     }
+        // },
+        // createCertificationModel: async (parent, { model }, context, info) => {
+        //     try {
+        //         // const jobContests = await fetchJobContestsFromDatabase(); 
+        //         const jobContests = dummyJobDB.jobContests
+        //         return jobContests;
+        //     } catch (error) {
+        //         console.error('Error fetching job contests:', error);
+        //         throw error;
+        //     }
+        // },
+        // createPortfolioModel: async (parent, { model }, context, info) => {
+        //     try {
+        //         // const jobContests = await fetchJobContestsFromDatabase(); 
+        //         const jobContests = dummyJobDB.jobContests
+        //         return jobContests;
+        //     } catch (error) {
+        //         console.error('Error fetching job contests:', error);
+        //         throw error;
+        //     }
+        // },
+        // createCompanyModel: async (parent, { model }, context, info) => {
+        //     try {
+        //         // const jobContests = await fetchJobContestsFromDatabase(); 
+        //         const jobContests = dummyJobDB.jobContests
+        //         return jobContests;
+        //     } catch (error) {
+        //         console.error('Error fetching job contests:', error);
+        //         throw error;
+        //     }
+        // },
+        // createRewardModel: async (parent, { model }, context, info) => {
+        //     try {
+        //         // const jobContests = await fetchJobContestsFromDatabase(); 
+        //         const jobContests = dummyJobDB.jobContests
+        //         return jobContests;
+        //     } catch (error) {
+        //         console.error('Error fetching job contests:', error);
+        //         throw error;
+        //     }
+        // },
+        // createBankModel: async (parent, { model }, context, info) => {
+        //     try {
+        //         // const jobContests = await fetchJobContestsFromDatabase(); 
+        //         const jobContests = dummyJobDB.jobContests
+        //         return jobContests;
+        //     } catch (error) {
+        //         console.error('Error fetching job contests:', error);
+        //         throw error;
+        //     }
+        // },
+        // createMyHomeModel: async (parent, { model }, context, info) => {
+        //     try {
+        //         // const jobContests = await fetchJobContestsFromDatabase(); 
+        //         const jobContests = dummyJobDB.jobContests
+        //         return jobContests;
+        //     } catch (error) {
+        //         console.error('Error fetching job contests:', error);
+        //         throw error;
+        //     }
+        // },
+        // createPreSaleRightModel: async (parent, { model }, context, info) => {
+        //     try {
+        //         // const jobContests = await fetchJobContestsFromDatabase(); 
+        //         const jobContests = dummyJobDB.jobContests
+        //         return jobContests;
+        //     } catch (error) {
+        //         console.error('Error fetching job contests:', error);
+        //         throw error;
+        //     }
+        // },
+        // createSubscriptionModel: async (parent, { model }, context, info) => {
+        //     try {
+        //         // const jobContests = await fetchJobContestsFromDatabase(); 
+        //         const jobContests = dummyJobDB.jobContests
+        //         return jobContests;
+        //     } catch (error) {
+        //         console.error('Error fetching job contests:', error);
+        //         throw error;
+        //     }
+        // },
+        // createCheapOfficeModel: async (parent, { model }, context, info) => {
+        //     try {
+        //         // const jobContests = await fetchJobContestsFromDatabase(); 
+        //         const jobContests = dummyJobDB.jobContests
+        //         return jobContests;
+        //     } catch (error) {
+        //         console.error('Error fetching job contests:', error);
+        //         throw error;
+        //     }
+        // },
+
+        updateJobFairModel: async (parent, { model }, context, info) => {
+            try {
+                // const jobContests = await fetchJobContestsFromDatabase(); 
+                const jobContests = dummyJobDB.jobContests
+                return jobContests;
+            } catch (error) {
+                console.error('Error fetching job contests:', error);
+                throw error;
+            }
+        },
+        updateJobContestModel: async (parent, { model }, context, info) => {
+            try {
+                // const jobContests = await fetchJobContestsFromDatabase(); 
+                const jobContests = dummyJobDB.jobContests
+                return jobContests;
+            } catch (error) {
+                console.error('Error fetching job contests:', error);
+                throw error;
+            }
+        },
+        updateCertificationModel: async (parent, { model }, context, info) => {
+            try {
+                // const jobContests = await fetchJobContestsFromDatabase(); 
+                const jobContests = dummyJobDB.jobContests
+                return jobContests;
+            } catch (error) {
+                console.error('Error fetching job contests:', error);
+                throw error;
+            }
+        },
+        updatePortfolioModel: async (parent, { model }, context, info) => {
+            try {
+                // const jobContests = await fetchJobContestsFromDatabase(); 
+                const jobContests = dummyJobDB.jobContests
+                return jobContests;
+            } catch (error) {
+                console.error('Error fetching job contests:', error);
+                throw error;
+            }
+        },
+        updateCompanyModel: async (parent, { model }, context, info) => {
+            try {
+                // const jobContests = await fetchJobContestsFromDatabase(); 
+                const jobContests = dummyJobDB.jobContests
+                return jobContests;
+            } catch (error) {
+                console.error('Error fetching job contests:', error);
+                throw error;
+            }
+        },
+        updateRewardModel: async (parent, { model }, context, info) => {
+            try {
+                // const jobContests = await fetchJobContestsFromDatabase(); 
+                const jobContests = dummyJobDB.jobContests
+                return jobContests;
+            } catch (error) {
+                console.error('Error fetching job contests:', error);
+                throw error;
+            }
+        },
+        updateBankModel: async (parent, { model }, context, info) => {
+            try {
+                // const jobContests = await fetchJobContestsFromDatabase(); 
+                const jobContests = dummyJobDB.jobContests
+                return jobContests;
+            } catch (error) {
+                console.error('Error fetching job contests:', error);
+                throw error;
+            }
+        },
+        updateMyHomeModel: async (parent, { model }, context, info) => {
+            try {
+                // const jobContests = await fetchJobContestsFromDatabase(); 
+                const jobContests = dummyJobDB.jobContests
+                return jobContests;
+            } catch (error) {
+                console.error('Error fetching job contests:', error);
+                throw error;
+            }
+        },
+        updatePreSaleRightModel: async (parent, { model }, context, info) => {
+            try {
+                // const jobContests = await fetchJobContestsFromDatabase(); 
+                const jobContests = dummyJobDB.jobContests
+                return jobContests;
+            } catch (error) {
+                console.error('Error fetching job contests:', error);
+                throw error;
+            }
+        },
+        updateSubscriptionModel: async (parent, { model }, context, info) => {
+            try {
+                // const jobContests = await fetchJobContestsFromDatabase(); 
+                const jobContests = dummyJobDB.jobContests
+                return jobContests;
+            } catch (error) {
+                console.error('Error fetching job contests:', error);
+                throw error;
+            }
+        },
+        updateCheapOfficeModel: async (parent, { model }, context, info) => {
+            try {
+                // const jobContests = await fetchJobContestsFromDatabase(); 
+                const jobContests = dummyJobDB.jobContests
+                return jobContests;
+            } catch (error) {
+                console.error('Error fetching job contests:', error);
+                throw error;
+            }
+        },
+
+        deleteJobFairModel: async (parent, { model }, context, info) => {
+            try {
+                // const jobContests = await fetchJobContestsFromDatabase(); 
+                const jobContests = dummyJobDB.jobContests
+                return jobContests;
+            } catch (error) {
+                console.error('Error fetching job contests:', error);
+                throw error;
+            }
+        },
+        deleteJobContestModel: async (parent, { model }, context, info) => {
+            try {
+                // const jobContests = await fetchJobContestsFromDatabase(); 
+                const jobContests = dummyJobDB.jobContests
+                return jobContests;
+            } catch (error) {
+                console.error('Error fetching job contests:', error);
+                throw error;
+            }
+        },
+        deleteCertificationModel: async (parent, { model }, context, info) => {
+            try {
+                // const jobContests = await fetchJobContestsFromDatabase(); 
+                const jobContests = dummyJobDB.jobContests
+                return jobContests;
+            } catch (error) {
+                console.error('Error fetching job contests:', error);
+                throw error;
+            }
+        },
+        deletePortfolioModel: async (parent, { model }, context, info) => {
+            try {
+                // const jobContests = await fetchJobContestsFromDatabase(); 
+                const jobContests = dummyJobDB.jobContests
+                return jobContests;
+            } catch (error) {
+                console.error('Error fetching job contests:', error);
+                throw error;
+            }
+        },
+        deleteCompanyModel: async (parent, { model }, context, info) => {
+            try {
+                // const jobContests = await fetchJobContestsFromDatabase(); 
+                const jobContests = dummyJobDB.jobContests
+                return jobContests;
+            } catch (error) {
+                console.error('Error fetching job contests:', error);
+                throw error;
+            }
+        },
+        deleteRewardModel: async (parent, { model }, context, info) => {
+            try {
+                // const jobContests = await fetchJobContestsFromDatabase(); 
+                const jobContests = dummyJobDB.jobContests
+                return jobContests;
+            } catch (error) {
+                console.error('Error fetching job contests:', error);
+                throw error;
+            }
+        },
+        deleteBankModel: async (parent, { model }, context, info) => {
+            try {
+                // const jobContests = await fetchJobContestsFromDatabase(); 
+                const jobContests = dummyJobDB.jobContests
+                return jobContests;
+            } catch (error) {
+                console.error('Error fetching job contests:', error);
+                throw error;
+            }
+        },
+        deleteMyHomeModel: async (parent, { model }, context, info) => {
+            try {
+                // const jobContests = await fetchJobContestsFromDatabase(); 
+                const jobContests = dummyJobDB.jobContests
+                return jobContests;
+            } catch (error) {
+                console.error('Error fetching job contests:', error);
+                throw error;
+            }
+        },
+        deletePreSaleRightModel: async (parent, { model }, context, info) => {
+            try {
+                // const jobContests = await fetchJobContestsFromDatabase(); 
+                const jobContests = dummyJobDB.jobContests
+                return jobContests;
+            } catch (error) {
+                console.error('Error fetching job contests:', error);
+                throw error;
+            }
+        },
+        deleteSubscriptionModel: async (parent, { model }, context, info) => {
+            try {
+                // const jobContests = await fetchJobContestsFromDatabase(); 
+                const jobContests = dummyJobDB.jobContests
+                return jobContests;
+            } catch (error) {
+                console.error('Error fetching job contests:', error);
+                throw error;
+            }
+        },
+        deleteCheapOfficeModel: async (parent, { model }, context, info) => {
+            try {
+                // const jobContests = await fetchJobContestsFromDatabase(); 
+                const jobContests = dummyJobDB.jobContests
+                return jobContests;
+            } catch (error) {
+                console.error('Error fetching job contests:', error);
+                throw error;
+            }
+        }
+    }
+};
+
+export {
+    customResolvers
+};
+
+*/

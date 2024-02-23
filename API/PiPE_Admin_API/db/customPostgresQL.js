@@ -1,23 +1,23 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-// import postgraphile from 'postgraphile';
+import { postgraphile } from 'postgraphile';
 
-// const postgraphileDB = postgraphile(
-//     {
-//         database: process.env.DB_NAME,
-//         user: process.env.DB_USER,
-//         password: process.env.DB_PW,
-//         host: process.env.DB_HOST,
-//         port: process.env.DB_PORT,
-//     },
-//     'public',
-//     {
-//         watchPg: true,
-//         graphiql: true,
-//         enhanceGraphiql: true,
-//     }
-// )
+const postgraphileDB = postgraphile(
+    {
+        database: process.env.DB_NAME,
+        user: process.env.DB_USER,
+        password: process.env.DB_PW,
+        host: process.env.DB_HOST,
+        port: process.env.DB_PORT,
+    },
+    'public',
+    {
+        watchPg: true,
+        graphiql: true,
+        enhanceGraphiql: true,
+    }
+)
 
 
 const dummyDB = [
@@ -107,7 +107,7 @@ const dummyJobDB = {
   
 
 export {
-    // postgraphileDB,
+    postgraphileDB,
     dummyDB,
     dummyJobDB
 };
