@@ -1,7 +1,30 @@
 import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Nav from './components/Nav';
 
+<Link className="navBarMenu" to={'/money'}>돈</Link>
+<Link className="navBarMenu" to={'/place'}>공간</Link>
+<Link className="navBarMenu" to={'/job'}>취업</Link>
+<Link className="navBarMenu" to={'/insure'}>보험</Link>
+<Link className="navBarMenu" to={'/etc'}>미확장</Link>
 const App = ( ) => {
-  return <div>React Admin Project</div>;
+  // return (
+  //   <div>
+  //     React Admin Project
+  //   </div>
+  // );
+  return (
+    <BrowserRouter>
+      <div className="App">
+        <Header />
+        <Nav />
+        <Routes>
+          <Route path="/money" element= { <Money />}/>
+          <Route path="/" element= { <money />}/>
+        </Routes>
+      </div>
+    </BrowserRouter>
+  );
 };
 
 export default App;

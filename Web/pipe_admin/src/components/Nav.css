@@ -1,0 +1,12 @@
+.navBar{
+    width : 100%;
+    background-color: black;
+    padding: 15px 0px;
+    text-align: right;
+}
+
+.navBarMenu{
+    color: white;
+    margin: 8px;
+    text-decoration: none;
+}
