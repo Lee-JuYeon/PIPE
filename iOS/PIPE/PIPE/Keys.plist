@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_URL_BANK_DEPOSIT_SAVING</key>
+	<string>http://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json?auth=8931897520bb7b11ce26798ebf7b5026&amp;topFinGrpNo=020000&amp;pageNo=1</string>
+	<key>API_URL_BANK_BASIC_SAVING</key>
+	<string>http://finlife.fss.or.kr/finlifeapi/savingProductsSearch.json?auth=8931897520bb7b11ce26798ebf7b5026&amp;topFinGrpNo=020000&amp;pageNo=1</string>
+	<key>API_URL_BANK_RETIREMENT_SAVING</key>
+	<string>http://finlife.fss.or.kr/finlifeapi/annuitySavingProductsSearch.json?auth=8931897520bb7b11ce26798ebf7b5026&amp;topFinGrpNo=020000&amp;pageNo=1</string>
+	<key>API_KEY_BANK_SAVINGS</key>
+	<string>8931897520bb7b11ce26798ebf7b5026</string>
+</dict>
+</plist>

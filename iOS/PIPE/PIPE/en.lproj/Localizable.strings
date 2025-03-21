@@ -1,0 +1,22 @@
+/* 
+  Localizable.strings
+  PIPE
+
+  Created by C.A.V.S.S on 2023/05/28.
+  
+*/
+"filteredSearch" = "Filtered Search";
+
+"Money" = "Money";
+"Place" = "Place";
+"SupportTitle" = "Support";
+"SavingsTitle" = "Savings";
+"LoanTitle" = "Loan";
+
+"Job" = "Job";
+"EmploymentTitle" = "Employment";
+"ContestTitle" = "Contest";
+"JobFairTitle" = "JobFair";
+"CertificationTitle" = "Certifications";
+
+

@@ -1,0 +1,28 @@
+/* 
+  Localizable.strings
+  PIPE
+
+  Created by C.A.V.S.S on 2023/05/28.
+  
+*/
+"filteredSearch" = "상세검색";
+
+"Money" = "돈";
+"Place" = "공간";
+"SupportTitle" = "지원금";
+"SavingsTitle" = "적금";
+"LoanTitle" = "대출";
+
+"TITLE_MONEY_SUPPORT" = "지원금";
+"TITLE_MONEY_SAVING_BASIC" = "적금";
+"TITLE_MONEY_SAVING_RETIREMENT" = "연금저축";
+"TITLE_MONEY_SAVING_DEPOSIT" = "정기예금";
+
+
+"Job" = "Job";
+"EmploymentTitle" = "취업";
+"ContestTitle" = "취창업활동";
+"JobFairTitle" = "박람회";
+"CertificationTitle" = "자격증";
+
+

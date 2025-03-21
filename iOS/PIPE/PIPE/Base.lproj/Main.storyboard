@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="JyS-Uf-sfA">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--지원금-->
+        <scene sceneID="Uuq-dx-q1h">
+            <objects>
+                <viewController storyboardIdentifier="MoneyController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="3mc-FJ-21h" customClass="MoneyController" customModule="PIPE" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="NaK-Kn-dS1">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="eya-hF-eJJ"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="지원금" image="navi_money" landscapeImage="navi_money" id="RQB-7u-bwx"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IER-NU-xlp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1025" y="443"/>
+        </scene>
+        <!--공간-->
+        <scene sceneID="Rkb-Fp-RGP">
+            <objects>
+                <viewController storyboardIdentifier="PlaceController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="O85-1w-IPj" customClass="PlaceController" customModule="PIPE" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="rlz-UT-yuY">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="Kgb-ZE-f9K"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="공간" image="navi_place" id="Ybf-zn-64E"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CHV-nf-QJ2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-318" y="443"/>
+        </scene>
+        <!--취업-->
+        <scene sceneID="fDu-sz-wLo">
+            <objects>
+                <viewController storyboardIdentifier="JobController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="gYc-ZH-Yqd" customClass="JobController" customModule="PIPE" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="p90-sc-gvp">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="Ocu-1H-N03"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="취업" image="navi_job" id="5gD-NP-aFd"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6E9-N3-QmB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="365" y="443"/>
+        </scene>
+        <!--MY-->
+        <scene sceneID="ecG-Uk-hkf">
+            <objects>
+                <viewController storyboardIdentifier="MyController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="HNz-bl-5qA" customClass="MyController" customModule="PIPE" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="zmX-7G-JU8">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="bU4-E3-n8r"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="MY" image="navi_my" id="jla-Rw-5QQ"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gye-xA-PdU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1743" y="443"/>
+        </scene>
+        <!--Main Controller-->
+        <scene sceneID="L99-M2-kxk">
+            <objects>
+                <tabBarController id="JyS-Uf-sfA" customClass="MainController" customModule="PIPE" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="nFa-0w-B45">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="HNz-bl-5qA" kind="relationship" relationship="viewControllers" id="SRy-rM-9II"/>
+                        <segue destination="3mc-FJ-21h" kind="relationship" relationship="viewControllers" id="hEm-OC-N2C"/>
+                        <segue destination="O85-1w-IPj" kind="relationship" relationship="viewControllers" id="Luo-dA-Qk9"/>
+                        <segue destination="gYc-ZH-Yqd" kind="relationship" relationship="viewControllers" id="nKV-jU-mw7"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jQH-er-XhA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-522" y="-374"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="navi_job" width="25" height="24.5"/>
+        <image name="navi_money" width="25" height="24.5"/>
+        <image name="navi_my" width="25" height="24.5"/>
+        <image name="navi_place" width="25" height="24.5"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
