@@ -1,0 +1,37 @@
+<layout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.cavss.pipe.ui.custom.jy_dropdown.JuYeonDropDown
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:id="@+id/language_dropdown"
+            app:emoji="@string/fragment_board_setting_language_emoji"
+            app:text="@string/fragment_board_setting_language_title"
+            app:textSize="10sp"
+            app:textColour="@color/textColour"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+        <com.cavss.pipe.ui.custom.jy_dropdown.JuYeonDropDown
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:id="@+id/information_dropdown"
+            app:emoji="@string/fragment_board_setting_information_emoji"
+            app:text="@string/fragment_board_setting_information_title"
+            app:textSize="10sp"
+            app:textColour="@color/textColour"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/language_dropdown"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

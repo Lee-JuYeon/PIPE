@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:viewBindingIgnore="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="com.cavss.pipe.ui.custom.recyclerview.IClickListener"/>
+        <import type="com.cavss.pipe.util.custombindingadapter.CustomBindingAdapter"/>
+        <variable
+            name="model"
+            type="com.cavss.pipe.model.job.jobfair.JobfairModel" />
+        <variable
+            name="clickCallback"
+            type="IClickListener" />
+        <variable
+            name="position"
+            type="Integer" />
+    </data>
+
+    <com.cavss.pipe.ui.custom.glassmorphism.GlassmorphismConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> clickCallback.onItemClick(model, position)}">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:id="@+id/poster_image"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:gravity="center_vertical"
+            android:textStyle="bold"
+            android:textColor="@color/textColour"
+            android:textSize="17sp"
+            app:jobfairModel="@{model}"
+            app:layout_constraintTop_toBottomOf="@id/poster_image"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+    </com.cavss.pipe.ui.custom.glassmorphism.GlassmorphismConstraintLayout>
+</layout>

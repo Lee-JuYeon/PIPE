@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:viewBindingIgnore="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="com.cavss.pipe.ui.custom.recyclerview.IClickListener"/>
+        <variable
+            name="model"
+            type="com.cavss.pipe.model.job.employment.EmploymentModel" />
+        <variable
+            name="clickCallback"
+            type="IClickListener" />
+        <variable
+            name="position"
+            type="Integer" />
+    </data>
+
+    <com.cavss.pipe.ui.custom.glassmorphism.GlassmorphismConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> clickCallback.onItemClick(model, position)}">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textColour"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:text="@{model.employmentTitle}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textColour"
+            android:textSize="17sp"
+            app:employmentModel="@{model}"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+    </com.cavss.pipe.ui.custom.glassmorphism.GlassmorphismConstraintLayout>
+</layout>

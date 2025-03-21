@@ -1,0 +1,76 @@
+<layout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <com.cavss.pipe.ui.custom.claymorphism.ClaymorphismView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:id="@+id/contest_background">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="@color/textColour"
+                android:hint="@string/search_keyword"
+                android:maxLines="1"
+                android:id="@+id/contest_search"
+                android:background="@drawable/background_null"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="@color/textColour"
+                android:hint="주제를 입력해주세요"
+                android:maxLines="1"
+                android:id="@+id/contest_object"
+                app:layout_constraintTop_toBottomOf="@id/contest_search"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="@color/textColour"
+                android:hint="모집대상 검색"
+                android:maxLines="1"
+                android:id="@+id/contest_target"
+                app:layout_constraintTop_toBottomOf="@id/contest_object"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="@color/textColour"
+                android:text="접수기간 달력넣기."
+                android:maxLines="1"
+                android:id="@+id/contest_applyPeriod"
+                app:layout_constraintTop_toBottomOf="@id/contest_target"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+
+        </com.cavss.pipe.ui.custom.claymorphism.ClaymorphismView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/contest_recyclerview">
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+</layout>

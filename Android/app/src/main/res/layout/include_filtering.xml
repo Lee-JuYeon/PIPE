@@ -1,0 +1,100 @@
+<layout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:orientation="vertical"
+        android:gravity="start|top"
+        android:visibility="gone"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:id="@+id/my_info_filter">
+
+        <com.cavss.pipe.ui.custom.jy_address.JuYeonAddress
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/address"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+        <com.cavss.pipe.ui.custom.jy_switch.JuYeonSwitch
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/gender_switch"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/address"
+            app:onImage="@drawable/icon_male"
+            app:offImage="@drawable/icon_female"
+            app:switchOn="false"
+            app:switchColor="@color/claymorphismThemeColour"
+            app:backgroundColor="@color/claymorphismInnerShadowRightBottom"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textColour"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:text="나이"
+            android:id="@+id/age_title"
+            app:layout_constraintLeft_toRightOf="@id/gender_switch"
+            app:layout_constraintTop_toBottomOf="@id/address"/>
+        <NumberPicker
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:id="@+id/age_picker"
+            app:layout_constraintLeft_toRightOf="@id/age_title"
+            app:layout_constraintTop_toTopOf="@id/age_title"
+            app:layout_constraintBottom_toBottomOf="@id/age_title"/>
+
+        <com.cavss.pipe.ui.custom.jy_dropdown.JuYeonDropDown
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:id="@+id/family_type_dropdown"
+            app:emoji="@string/emoji_family_type"
+            app:text="가정형태"
+            app:textSize="10sp"
+            app:textColour="@color/textColour"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/gender_switch"/>
+
+<!--        <com.cavss.pipe.ui.custom.dropdown.JuYeonDropDown-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/work_state_dropdown"-->
+<!--            app:layout_constraintLeft_toRightOf="@id/family_type_dropdown"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/age_content"/>-->
+
+<!--        <com.cavss.pipe.ui.custom.dropdown.JuYeonDropDown-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/income_dropdown"-->
+<!--            app:layout_constraintLeft_toRightOf="@id/work_state_dropdown"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/age_content"/>-->
+
+<!--        <com.cavss.pipe.ui.custom.dropdown.JuYeonDropDown-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/birth_dropdown"-->
+<!--            app:layout_constraintLeft_toLeftOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/family_type_dropdown"/>-->
+<!--        <com.cavss.pipe.ui.custom.dropdown.JuYeonDropDown-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/vip_dropdown"-->
+<!--            app:layout_constraintLeft_toRightOf="@id/birth_dropdown"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/family_type_dropdown"/>-->
+<!--        <com.cavss.pipe.ui.custom.dropdown.JuYeonDropDown-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/supply_type_dropdown"-->
+<!--            app:layout_constraintLeft_toRightOf="@id/vip_dropdown"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/family_type_dropdown"/>-->
+        <!-- 업종, 창업상태, 직장상태, 취업상태, 공급유형, 우대사항, 중위소득, 출산상태, 가정분류 -->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

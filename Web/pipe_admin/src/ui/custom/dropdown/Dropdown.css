@@ -1,0 +1,19 @@
+.dropdown {
+    position: relative; /* Necessary for proper positioning of dropdown menu */
+}
+  
+.dropdown-trigger {
+    /* Customize button styles */
+}
+  
+.dropdown-menu {
+    position: absolute;
+    top: 100%; /* Position below the trigger button */
+    left: 0;
+    background-color: #fff; /* Or desired background color */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    /* Add other styling for list items, etc. */
+}
+  

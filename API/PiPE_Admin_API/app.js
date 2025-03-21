@@ -6,8 +6,8 @@ import {
 } from 'apollo-server';
 import depthLimit from 'graphql-depth-limit';
 import { customAuthorization } from './secure/authorization.js';
-import { customResolvers } from './queries/resolvers/resolvers.js';
-import { customTypeDefs } from './queries/typeDefs/typeDefs.js';
+import { customResolvers } from './typedefs_resolvers/resolvers.js';
+import { customTypeDefs } from './queries/resolvers/typedefs_resolvers/typeDefs/typeDefs.js';
 
 const formatError = err => {
     console.error("--- GraphQL Error ---");

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "69486911602",
+    "firebase_url": "https://pipe-e7fc7-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "pipe-e7fc7",
+    "storage_bucket": "pipe-e7fc7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:69486911602:android:51414228a179e2825322eb",
+        "android_client_info": {
+          "package_name": "com.cavss.pipe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "69486911602-bfvdf10usiuscab2jqonl9qbcauuj5ij.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdAKTo5mZBneYH3JsKUhGz_0UHpG8uX-4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "69486911602-bfvdf10usiuscab2jqonl9qbcauuj5ij.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

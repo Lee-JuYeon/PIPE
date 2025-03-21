@@ -1,0 +1,11 @@
+.notification-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* One-third for inputs, two-thirds for content */
+    gap: 10px; /* Add spacing between columns */
+}
+  
+.notification-inputs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns for title and content */
+    gap: 10px;
+}

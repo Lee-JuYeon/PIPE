@@ -1,0 +1,38 @@
+<layout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <!--        <variable-->
+        <!--            name="item"-->
+        <!--            type="com.cavss.pipe.Interface.CustomCalendarView.DayViewHolder" />-->
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/emoji"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="준비중"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintVertical_bias="0.5">
+        </TextView>
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="열심히 개발중인 서비스입니다. 조금만 기다려주세요"
+            app:layout_constraintTop_toBottomOf="@id/emoji"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+        </TextView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

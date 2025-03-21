@@ -1,0 +1,78 @@
+<layout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+<!--        <variable-->
+<!--            name="item"-->
+<!--            type="com.cavss.pipe.Interface.CustomCalendarView.DayViewHolder" />-->
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tablayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintWidth_default="spread"/>
+
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewpager2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_default="spread"
+            app:layout_constraintTop_toBottomOf="@id/tablayout"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+
+<!--    &lt;!&ndash;   상단 옵션뷰   &ndash;&gt;-->
+<!--<androidx.recyclerview.widget.RecyclerView-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_alignParentTop="true"-->
+<!--android:id="@+id/my_option_recyclerview"/>-->
+
+<!--    &lt;!&ndash; 메모, 달력 &ndash;&gt;-->
+<!--<include-->
+<!--android:id="@+id/my_memo_include"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_below="@id/my_option_recyclerview"-->
+<!--android:visibility="gone"-->
+<!--layout="@layout/fragment_board_portfolio"/>-->
+
+<!--    &lt;!&ndash; 필터링 &ndash;&gt;-->
+<!--<include-->
+<!--android:id="@+id/my_infofilter_include"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_below="@id/my_option_recyclerview"-->
+<!--android:visibility="gone"-->
+<!--layout="@layout/include_my_infofilter"/>-->
+
+<!--    &lt;!&ndash; 공지사항 &ndash;&gt;-->
+<!--<include-->
+<!--android:id="@+id/my_notification_include"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_below="@id/my_option_recyclerview"-->
+<!--android:visibility="visible"-->
+<!--layout="@layout/fragment_board_notification"/>-->
+
+<!--    &lt;!&ndash; 달력 &ndash;&gt;-->
+<!--<include-->
+<!--android:id="@+id/my_calendar_include"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_below="@id/my_option_recyclerview"-->
+<!--android:visibility="gone"-->
+<!--layout="@layout/fragment_board_calendar"/>-->

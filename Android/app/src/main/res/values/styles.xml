@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 토요일 스타일 -->
+    <style name="CalendarView_Saturday">
+        <item name="android:textColor">#FF092DD1</item>
+    </style>
+
+    <!-- 일요일 스타일 -->
+    <style name="CalendarView_Sunday">
+        <item name="android:textColor">#FFA82A1D</item>
+<!--        <item name="android:textColor">@color/red</item>-->
+    </style>
+
+    <!-- 기본 스타일 -->
+    <style name="CalendarView_Default">
+        <item name="android:textColor">#FF000000</item>
+    </style>
+
+    <style name="CustomBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:background">@android:color/black</item>
+    </style>
+</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:icon="@drawable/icon_isometric_calendar"
+        android:title="@string/bottom_navi_item_board"/>
+    <item
+        android:icon="@drawable/icon_isometric_money"
+        android:title="@string/bottom_navi_item_money"/>
+    <item
+        android:icon="@drawable/icon_isometric_place"
+        android:title="@string/bottom_navi_item_place"/>
+    <item
+        android:icon="@drawable/icon_isometric_job"
+        android:title="@string/bottom_navi_item_job"/>
+<!--    <item-->
+<!--        android:icon="@drawable/icon_isometric_finance"-->
+<!--        android:title="@string/bottom_navi_item_insurance"/>-->
+</menu>

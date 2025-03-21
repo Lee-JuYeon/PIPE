@@ -1,4 +1,4 @@
-import Nav from "./Nav";
+import Nav from "../ui/custom/nav/Nav";
 
 function isActive(path) {
   return window.location.pathname.startsWith(path);
