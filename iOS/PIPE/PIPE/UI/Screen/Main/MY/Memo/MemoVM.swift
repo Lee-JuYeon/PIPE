@@ -6,37 +6,36 @@
 //
 
 import Foundation
-import Combine
+import RxSwift
 
-class MemoVM: ObservableObject {
+class MemoVM {
     
-    private let memoRepository : MemoRepository
-    init(
-        setMemoRepository : MemoRepository
-    ){
+    private let memoRepository: MemoRepository
+    private let _memoList = BehaviorSubject<[MemoModel]>(value: [])
+    private let disposeBag = DisposeBag()
+    
+    // 외부에서 접근 가능한 메모 리스트 Observable
+    var memoList: Observable<[MemoModel]> {
+        return _memoList.asObservable()
+    }
+    
+    init(setMemoRepository: MemoRepository) {
         memoRepository = setMemoRepository
     }
     
-    private let memoSubject = PassthroughSubject<[MemoModel], Error>()
-    private var memoCancellable = Set<AnyCancellable>()
-    var cmemoList : AnyPublisher<[MemoModel], Error>{
-        return memoSubject.eraseToAnyPublisher()
-    }
-    func loadMemo(){
-        let fetchTask = memoRepository.fetchMemos()
-        fetchTask
-            .sink { completion in
-                switch completion {
-                case .finished:
-                    print("MemoVM, loadMemo, sink // 비동기 작업이 성공적으로 끝남")
-                case .failure(let error):
-                    print("MemoVM, loadMemo, sink // error: \(error.localizedDescription)")
+    func loadMemo() {
+        memoRepository.fetchMemos()
+            .subscribe(
+                onNext: { [weak self] memos in
+                    self?._memoList.onNext(memos)
+                },
+                onError: { error in
+                    print("메모 로딩 에러: \(error)")
+                },
+                onCompleted: {
+                    print("메모 로딩 완료")
                 }
-            } receiveValue: { list in
-                self.memoSubject.send(list)
-            }
-            .store(in: &memoCancellable)
+            )
+            .disposed(by: disposeBag)
     }
-    
-   
 }

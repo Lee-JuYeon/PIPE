@@ -5,17 +5,15 @@
 //  Created by C.A.V.S.S on 2023/05/31.
 //
 
-import Foundation
 import UIKit
-import UIKit
-import Combine
+import RxSwift
 
 class MemoController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     private var vm: MemoVM?
     private var tableView: UITableView!
-    private var detailView: MemoDetailView!
-    private var cancellables = Set<AnyCancellable>()
+    private let disposeBag = DisposeBag()
     private var memos: [MemoModel] = []
+    private var expandedIndexPathSubject = BehaviorSubject<IndexPath?>(value: nil)
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -40,55 +38,44 @@ class MemoController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // 테이블 뷰 설정
         tableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(MemoItem.self, forCellReuseIdentifier: MemoItem.identifier)
+        tableView.register(MemoCell.self, forCellReuseIdentifier: MemoCell.identifier)
         tableView.delegate = self
         tableView.dataSource = self
-        
-        // 상세 뷰 설정
-        detailView = MemoDetailView()
-        detailView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.estimatedRowHeight = 80
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.separatorStyle = .singleLine
         
         // 뷰 추가
         view.addSubview(tableView)
-        view.addSubview(detailView)
 
         // 제약 조건 설정
         NSLayoutConstraint.activate([
-            // 테이블 뷰 제약 조건 (1/4 너비)
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
-            
-            // 상세 뷰 제약 조건 (3/4 너비)
-            detailView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            detailView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            detailView.leadingAnchor.constraint(equalTo: tableView.trailingAnchor),
-            detailView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
     
     private func setupBindings() {
         // ViewModel의 메모 리스트 구독
-        vm?.cmemoList
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                switch completion {
-                case .finished:
-                    print("메모 로딩 완료")
-                case .failure(let error):
-                    print("메모 로딩 에러: \(error)")
-                }
-            } receiveValue: { [weak self] memos in
+        vm?.memoList
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] memos in
                 self?.memos = memos
                 self?.tableView.reloadData()
-                
-                // 첫 번째 메모 선택 (옵셔널)
-                if let firstMemo = memos.first {
-                    self?.detailView.configure(with: firstMemo)
-                }
-            }
-            .store(in: &cancellables)
+            })
+            .disposed(by: disposeBag)
+        
+        // 확장된 셀 변경 이벤트 구독
+        expandedIndexPathSubject
+            .skip(1) // 초기값 스킵
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] _ in
+                self?.tableView.beginUpdates()
+                self?.tableView.endUpdates()
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - UITableViewDataSource
@@ -97,81 +84,62 @@ class MemoController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoItem.identifier, for: indexPath) as? MemoItem else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoCell.identifier, for: indexPath) as? MemoCell else {
             return UITableViewCell()
         }
         
-        cell.configure(with: memos[indexPath.row])
+        // 현재 셀이 확장된 상태인지 확인
+        let expandedIndexPath: IndexPath?
+        do {
+            expandedIndexPath = try expandedIndexPathSubject.value()
+        } catch {
+            expandedIndexPath = nil
+        }
+        
+        let isExpanded = expandedIndexPath == indexPath
+        cell.configure(with: memos[indexPath.row], isExpanded: isExpanded)
+        
         return cell
     }
     
     // MARK: - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let memo = memos[indexPath.row]
+        handleCellSelection(at: indexPath)
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    private func handleCellSelection(at indexPath: IndexPath) {
+        // 이전에 확장된 셀이 있고, 현재 선택한 셀과 다른 경우 축소
+        let previousIndexPath: IndexPath?
+        do {
+            previousIndexPath = try expandedIndexPathSubject.value()
+        } catch {
+            previousIndexPath = nil
+        }
         
-        // 선택된 메모의 전체 내용을 상세 뷰에 표시
-        detailView.configure(with: memo)
+        if let previous = previousIndexPath, previous != indexPath {
+            if let cell = tableView.cellForRow(at: previous) as? MemoCell {
+                cell.toggleExpanded()
+            }
+        }
         
-        // 셀 선택 애니메이션
-        UIView.animate(withDuration: 0.3) {
-            tableView.beginUpdates()
-            tableView.deselectRow(at: indexPath, animated: true)
-            tableView.endUpdates()
+        // 현재 셀 토글
+        if let cell = tableView.cellForRow(at: indexPath) as? MemoCell {
+            cell.toggleExpanded()
+            
+            // 현재 확장된 셀 갱신
+            let newValue = (previousIndexPath == indexPath) ? nil : indexPath
+            expandedIndexPathSubject.onNext(newValue)
+            
+            // 확장된 경우 해당 셀로 스크롤
+            if newValue == indexPath {
+                tableView.scrollToRow(at: indexPath, at: .none, animated: true)
+            }
         }
     }
-}
-
-// 상세 뷰 추가 (이전 구현과 동일)
-class MemoDetailView: UIView {
-    private let scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        return scrollView
-    }()
     
-    private let contentLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.font = .systemFont(ofSize: 16)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupViews()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func setupViews() {
-        addSubview(scrollView)
-        scrollView.addSubview(contentLabel)
-        
-        NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            
-            contentLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 16),
-            contentLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16),
-            contentLabel.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
-            contentLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -16),
-            contentLabel.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -32)
-        ])
-    }
-    
-    func configure(with memo: MemoModel) {
-        contentLabel.text = memo.content
-        
-        // 내용의 높이에 따라 스크롤 뷰 컨텐츠 크기 조정
-        layoutIfNeeded()
-        scrollView.contentSize = CGSize(
-            width: scrollView.frame.width,
-            height: contentLabel.frame.height + 32
-        )
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        // 확장된 셀은 더 큰 높이, 나머지는 기본 높이
+        return UITableView.automaticDimension
     }
 }

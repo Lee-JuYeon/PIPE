@@ -6,9 +6,9 @@
 //
 
 import Foundation
-import Combine
+import RxSwift
 
 protocol MemoRepository {
-    func fetchMemos() -> Future<[MemoModel], Error>
-    
+    func fetchMemos() -> Observable<[MemoModel]>
 }
+

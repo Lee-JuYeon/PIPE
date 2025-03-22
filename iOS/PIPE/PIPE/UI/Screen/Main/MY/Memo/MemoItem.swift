@@ -4,20 +4,38 @@
 //
 //  Created by C.A.V.S.S on 2023/06/29.
 //
-
-import Foundation
 import UIKit
 
-class MemoItem: UITableViewCell {
-    static let identifier = "MemoItem"
+class MemoCell: UITableViewCell {
+    static let identifier = "MemoCell"
     
-    private let memoLabel: UILabel = {
+    // 셀 상태를 추적
+    private var isExpanded = false
+    private var fullContent: String = ""
+    
+    // UI 요소
+    private let titleLabel: UILabel = {
         let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 16)
         label.numberOfLines = 1
-        label.font = .systemFont(ofSize: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    
+    private let contentTextView: UITextView = {
+        let textView = UITextView()
+        textView.font = .systemFont(ofSize: 14)
+        textView.isEditable = false
+        textView.isScrollEnabled = true
+        textView.isHidden = true
+        textView.backgroundColor = .clear
+        textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        return textView
+    }()
+    
+    // 높이 제약 조건
+    private var contentHeightConstraint: NSLayoutConstraint?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -29,17 +47,53 @@ class MemoItem: UITableViewCell {
     }
     
     private func setupViews() {
-        contentView.addSubview(memoLabel)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(contentTextView)
         
         NSLayoutConstraint.activate([
-            memoLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
-            memoLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            memoLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            memoLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            
+            contentTextView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            contentTextView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            contentTextView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            contentTextView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
         ])
+        
+        // 초기 높이 제약 (축소 상태)
+        contentHeightConstraint = contentTextView.heightAnchor.constraint(equalToConstant: 0)
+        contentHeightConstraint?.isActive = true
     }
     
-    func configure(with memo: MemoModel) {
-        memoLabel.text = memo.firstLine
+    func configure(with memo: MemoModel, isExpanded: Bool = false) {
+        self.fullContent = memo.content
+        self.titleLabel.text = memo.firstLine
+        self.contentTextView.text = memo.content
+        self.isExpanded = isExpanded
+        
+        updateExpandedState()
+    }
+    
+    func toggleExpanded() {
+        isExpanded = !isExpanded
+        updateExpandedState()
+    }
+    
+    private func updateExpandedState() {
+        contentTextView.isHidden = !isExpanded
+        
+        if isExpanded {
+            // 확장 상태
+            contentHeightConstraint?.constant = 150 // 적절한 높이로 조정
+            contentTextView.isScrollEnabled = true
+        } else {
+            // 축소 상태
+            contentHeightConstraint?.constant = 0
+            contentTextView.isScrollEnabled = false
+        }
+        
+        // 레이아웃 업데이트
+        contentView.layoutIfNeeded()
     }
 }
