@@ -8,29 +8,53 @@
 import UIKit
 
 class MainController: UITabBarController {
-
+    private var pipeVM: PipeVM?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         view.backgroundColor = UIColor.backgroundColour
-
+        setupViewModel()
+        injectViewModelsToChildControllers()
     }
-
-//    var pipeVM : PipeVM?
-    override func viewDidAppear(_ animated: Bool) {
+    
+    private func setupViewModel() {
+        // ViewModel에 필요한 Repository 생성
+        let moneyRepository = MoneyRepositoryImpl()
+        let jobRepository = JobRepositoryImpl()
+        let placeRepository = PlaceRepositoryImpl()
         
+        // PipeVM 인스턴스 생성
+        pipeVM = PipeVM(
+            setMoneyRepository: moneyRepository,
+            setJobRepository: jobRepository,
+            setPlaceRepository: placeRepository
+        )
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-//        let fm = FirebaseManager()
-//        let ref = fm.ref
-//        ref.child("place").observeSingleEvent(of: .value) { snapshot in
-//            
-//            print("place business value : \(snapshot.value)")
-//        }
+    private func injectViewModelsToChildControllers() {
+        guard let pipeVM = pipeVM, let viewControllers = self.viewControllers else { return }
+        
+        for viewController in viewControllers {
+            if let navigationController = viewController as? UINavigationController,
+               let childVC = navigationController.topViewController {
+                injectViewModelToController(childVC, pipeVM: pipeVM)
+            } else {
+                injectViewModelToController(viewController, pipeVM: pipeVM)
+            }
+        }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    private func injectViewModelToController(_ viewController: UIViewController, pipeVM: PipeVM) {
+        switch viewController {
+        case let moneyController as MoneyController:
+            moneyController.configurePipeVM(pipeVM: pipeVM)
+        case let placeController as PlaceController:
+            placeController.configurePipeVM(pipeVM: pipeVM)
+        case let jobController as JobController:
+            jobController.configurePipeVM(pipeVM: pipeVM)
+        default:
+            break // 해당되지 않는 뷰 컨트롤러는 처리하지 않음
+        }
     }
 }
 

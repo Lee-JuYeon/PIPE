@@ -10,7 +10,7 @@ import UIKit
 import Combine
 import WebKit
 
-class BackController: UIViewController, CustomModulerUIDelegate {
+class BankController: UIViewController, CustomModulerUIDelegate {
     private var pipeVM: PipeVM?
     init(
         setPipeVM : PipeVM?
