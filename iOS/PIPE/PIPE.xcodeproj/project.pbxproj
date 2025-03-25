@@ -10,7 +10,7 @@
 		7E22BBDD2A21FF3D00499BB4 /* MoneyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E22BBDC2A21FF3D00499BB4 /* MoneyController.swift */; };
 		7E22BBDF2A23666200499BB4 /* BankRetirementSavingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E22BBDE2A23666200499BB4 /* BankRetirementSavingController.swift */; };
 		7E22BBE12A23667B00499BB4 /* SupportController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E22BBE02A23667B00499BB4 /* SupportController.swift */; };
-		7E22BBE32A23669500499BB4 /* BankBasicSavingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E22BBE22A23669500499BB4 /* BankBasicSavingController.swift */; };
+		7E22BBE32A23669500499BB4 /* MemoCoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E22BBE22A23669500499BB4 /* MemoCoreDataManager.swift */; };
 		7E22BBEF2A23735200499BB4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E22BBF12A23735200499BB4 /* Localizable.strings */; };
 		7E22BBF42A23B62600499BB4 /* EmploymentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E22BBF32A23B62600499BB4 /* EmploymentController.swift */; };
 		7E22BBF62A23B64C00499BB4 /* ContestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E22BBF52A23B64C00499BB4 /* ContestController.swift */; };
@@ -34,7 +34,7 @@
 		7E3D07D92A1FD9A600115E8B /* PIPETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3D07D82A1FD9A600115E8B /* PIPETests.swift */; };
 		7E3D07E32A1FD9A600115E8B /* PIPEUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3D07E22A1FD9A600115E8B /* PIPEUITests.swift */; };
 		7E3D07E52A1FD9A600115E8B /* PIPEUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3D07E42A1FD9A600115E8B /* PIPEUITestsLaunchTests.swift */; };
-		7E49677E2AD539F700786EB0 /* BankBasicSavingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E49677D2AD539F700786EB0 /* BankBasicSavingCell.swift */; };
+		7E49677E2AD539F700786EB0 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E49677D2AD539F700786EB0 /* Memo.swift */; };
 		7E4967822AD54E6A00786EB0 /* MemoRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4967812AD54E6A00786EB0 /* MemoRepositoryImpl.swift */; };
 		7E4967862AD5507600786EB0 /* JobFairModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4967852AD5507600786EB0 /* JobFairModel.swift */; };
 		7E4967872AD5507600786EB0 /* JobFairModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4967852AD5507600786EB0 /* JobFairModel.swift */; };
@@ -92,17 +92,13 @@
 		7E5971C92D8AA57600E6BB11 /* DummySingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5971C82D8AA57600E6BB11 /* DummySingleton.swift */; };
 		7E5971CA2D8AA57600E6BB11 /* DummySingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5971C82D8AA57600E6BB11 /* DummySingleton.swift */; };
 		7E5971CB2D8AA57600E6BB11 /* DummySingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5971C82D8AA57600E6BB11 /* DummySingleton.swift */; };
-		7E5971CC2D8DB36B00E6BB11 /* BankRetirementCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5B56942A4C211C006B1D37 /* BankRetirementCell.swift */; };
-		7E5971CD2D8DB36B00E6BB11 /* BankRetirementCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5B56942A4C211C006B1D37 /* BankRetirementCell.swift */; };
-		7E5971CE2D8DB36B00E6BB11 /* BankBasicSavingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E22BBE22A23669500499BB4 /* BankBasicSavingController.swift */; };
-		7E5971CF2D8DB36B00E6BB11 /* BankBasicSavingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E22BBE22A23669500499BB4 /* BankBasicSavingController.swift */; };
 		7E5971D02D8DB36B00E6BB11 /* BankRetirementSavingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E22BBDE2A23666200499BB4 /* BankRetirementSavingController.swift */; };
 		7E5971D12D8DB36B00E6BB11 /* BankRetirementSavingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E22BBDE2A23666200499BB4 /* BankRetirementSavingController.swift */; };
-		7E5B56952A4C211C006B1D37 /* BankRetirementCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5B56942A4C211C006B1D37 /* BankRetirementCell.swift */; };
+		7E5B56952A4C211C006B1D37 /* MemoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5B56942A4C211C006B1D37 /* MemoHeaderView.swift */; };
 		7E5B56972A4C2125006B1D37 /* BankCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5B56962A4C2125006B1D37 /* BankCell.swift */; };
 		7E5B569A2A4CBA56006B1D37 /* DepositSavingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5B56992A4CBA56006B1D37 /* DepositSavingResponse.swift */; };
 		7E5B569C2A4CBA6C006B1D37 /* MemoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5B569B2A4CBA6C006B1D37 /* MemoModel.swift */; };
-		7E5B569E2A4CBA8C006B1D37 /* MemoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5B569D2A4CBA8C006B1D37 /* MemoItem.swift */; };
+		7E5B569E2A4CBA8C006B1D37 /* MemoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5B569D2A4CBA8C006B1D37 /* MemoCell.swift */; };
 		7E5B56A02A4CBA9F006B1D37 /* MemoVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5B569F2A4CBA9F006B1D37 /* MemoVM.swift */; };
 		7E5B56A32A4E6898006B1D37 /* BasicSavingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5B56A22A4E6898006B1D37 /* BasicSavingModel.swift */; };
 		7E5B56A52A4E68B3006B1D37 /* BasicSavingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5B56A42A4E68B3006B1D37 /* BasicSavingResponse.swift */; };
@@ -155,7 +151,7 @@
 		7E22BBDC2A21FF3D00499BB4 /* MoneyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyController.swift; sourceTree = "<group>"; };
 		7E22BBDE2A23666200499BB4 /* BankRetirementSavingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BankRetirementSavingController.swift; path = ../UI/Screen/Main/Money/Bank/BankRetirementSavingController.swift; sourceTree = "<group>"; };
 		7E22BBE02A23667B00499BB4 /* SupportController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportController.swift; sourceTree = "<group>"; };
-		7E22BBE22A23669500499BB4 /* BankBasicSavingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BankBasicSavingController.swift; path = ../UI/Screen/Main/Money/Bank/BankBasicSavingController.swift; sourceTree = "<group>"; };
+		7E22BBE22A23669500499BB4 /* MemoCoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoCoreDataManager.swift; sourceTree = "<group>"; };
 		7E22BBF02A23735200499BB4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7E22BBF22A2373C000499BB4 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7E22BBF32A23B62600499BB4 /* EmploymentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmploymentController.swift; sourceTree = "<group>"; };
@@ -183,7 +179,7 @@
 		7E3D07DE2A1FD9A600115E8B /* PIPEUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PIPEUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E3D07E22A1FD9A600115E8B /* PIPEUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PIPEUITests.swift; sourceTree = "<group>"; };
 		7E3D07E42A1FD9A600115E8B /* PIPEUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PIPEUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		7E49677D2AD539F700786EB0 /* BankBasicSavingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BankBasicSavingCell.swift; path = ../../Money/Bank/BankBasicSavingCell.swift; sourceTree = "<group>"; };
+		7E49677D2AD539F700786EB0 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Memo.swift; path = ../../Money/Bank/Memo.swift; sourceTree = "<group>"; };
 		7E4967812AD54E6A00786EB0 /* MemoRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoRepositoryImpl.swift; sourceTree = "<group>"; };
 		7E4967852AD5507600786EB0 /* JobFairModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobFairModel.swift; sourceTree = "<group>"; };
 		7E4967892AD550AE00786EB0 /* EmploymentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmploymentModel.swift; sourceTree = "<group>"; };
@@ -220,11 +216,11 @@
 		7E55E9652A4496CF00E4A22E /* DropDownTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownTextField.swift; sourceTree = "<group>"; };
 		7E57D7842AD19059009F0591 /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		7E5971C82D8AA57600E6BB11 /* DummySingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummySingleton.swift; sourceTree = "<group>"; };
-		7E5B56942A4C211C006B1D37 /* BankRetirementCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BankRetirementCell.swift; path = ../UI/Screen/Main/Money/Bank/BankRetirementCell.swift; sourceTree = "<group>"; };
+		7E5B56942A4C211C006B1D37 /* MemoHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoHeaderView.swift; sourceTree = "<group>"; };
 		7E5B56962A4C2125006B1D37 /* BankCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankCell.swift; sourceTree = "<group>"; };
 		7E5B56992A4CBA56006B1D37 /* DepositSavingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositSavingResponse.swift; sourceTree = "<group>"; };
 		7E5B569B2A4CBA6C006B1D37 /* MemoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoModel.swift; sourceTree = "<group>"; };
-		7E5B569D2A4CBA8C006B1D37 /* MemoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoItem.swift; sourceTree = "<group>"; };
+		7E5B569D2A4CBA8C006B1D37 /* MemoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoCell.swift; sourceTree = "<group>"; };
 		7E5B569F2A4CBA9F006B1D37 /* MemoVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoVM.swift; sourceTree = "<group>"; };
 		7E5B56A22A4E6898006B1D37 /* BasicSavingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicSavingModel.swift; sourceTree = "<group>"; };
 		7E5B56A42A4E68B3006B1D37 /* BasicSavingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicSavingResponse.swift; sourceTree = "<group>"; };
@@ -380,6 +376,7 @@
 		7E3D07C02A1FD9A500115E8B /* PIPE */ = {
 			isa = PBXGroup;
 			children = (
+				7E5971D22D8EF02A00E6BB11 /* Util */,
 				7E5971C72D8AA55300E6BB11 /* Dummy */,
 				7E54100E2A753AA400F27835 /* Protocol */,
 				7E22BC0E2A29866900499BB4 /* Extensions */,
@@ -622,13 +619,15 @@
 		7E3D08062A216C3800115E8B /* Memo */ = {
 			isa = PBXGroup;
 			children = (
-				7E49677D2AD539F700786EB0 /* BankBasicSavingCell.swift */,
 				7E22BC0C2A26ACAA00499BB4 /* MemoController.swift */,
+				7E5B569D2A4CBA8C006B1D37 /* MemoCell.swift */,
+				7E5B56942A4C211C006B1D37 /* MemoHeaderView.swift */,
+				7E22BBE22A23669500499BB4 /* MemoCoreDataManager.swift */,
 				7E4967812AD54E6A00786EB0 /* MemoRepositoryImpl.swift */,
 				7E5B56B32A4E69EC006B1D37 /* MemoRepository.swift */,
 				7E5B569B2A4CBA6C006B1D37 /* MemoModel.swift */,
-				7E5B569D2A4CBA8C006B1D37 /* MemoItem.swift */,
 				7E5B569F2A4CBA9F006B1D37 /* MemoVM.swift */,
+				7E49677D2AD539F700786EB0 /* Memo.swift */,
 			);
 			path = Memo;
 			sourceTree = "<group>";
@@ -783,11 +782,16 @@
 			isa = PBXGroup;
 			children = (
 				7E22BBDE2A23666200499BB4 /* BankRetirementSavingController.swift */,
-				7E5B56942A4C211C006B1D37 /* BankRetirementCell.swift */,
-				7E22BBE22A23669500499BB4 /* BankBasicSavingController.swift */,
 				7E5971C82D8AA57600E6BB11 /* DummySingleton.swift */,
 			);
 			path = Dummy;
+			sourceTree = "<group>";
+		};
+		7E5971D22D8EF02A00E6BB11 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Util;
 			sourceTree = "<group>";
 		};
 		7E5B56982A4CBA4B006B1D37 /* depositSaving */ = {
@@ -1057,7 +1061,7 @@
 				7E5B56A02A4CBA9F006B1D37 /* MemoVM.swift in Sources */,
 				7E5B56AE2A4E6985006B1D37 /* BankModelResponse.swift in Sources */,
 				7E5410332A7B8D7D00F27835 /* HomeCell.swift in Sources */,
-				7E5B569E2A4CBA8C006B1D37 /* MemoItem.swift in Sources */,
+				7E5B569E2A4CBA8C006B1D37 /* MemoCell.swift in Sources */,
 				7E55E9432A2FFFCE00E4A22E /* SupportModel.swift in Sources */,
 				7E55E94B2A30AA1200E4A22E /* PipeVM.swift in Sources */,
 				7E5B56B42A4E69EC006B1D37 /* MemoRepository.swift in Sources */,
@@ -1097,7 +1101,7 @@
 				7E5B56C12A4E9753006B1D37 /* HomeController.swift in Sources */,
 				7E54CD4F2AB7BB0300B1C08D /* CustomModulerUI.swift in Sources */,
 				7E5B56A72A4E68C2006B1D37 /* NotificationController.swift in Sources */,
-				7E22BBE32A23669500499BB4 /* BankBasicSavingController.swift in Sources */,
+				7E22BBE32A23669500499BB4 /* MemoCoreDataManager.swift in Sources */,
 				7E55E9412A2C187400E4A22E /* CustomCalendarView.swift in Sources */,
 				7E4967862AD5507600786EB0 /* JobFairModel.swift in Sources */,
 				7E62A8952A683B5800DB29DF /* MapView.swift in Sources */,
@@ -1106,8 +1110,8 @@
 				7E5B56BD2A4E6F4E006B1D37 /* PlaceRepository.swift in Sources */,
 				7E55E9562A3890AA00E4A22E /* DropDownCell.swift in Sources */,
 				7E22BC0D2A26ACAA00499BB4 /* MemoController.swift in Sources */,
-				7E5B56952A4C211C006B1D37 /* BankRetirementCell.swift in Sources */,
-				7E49677E2AD539F700786EB0 /* BankBasicSavingCell.swift in Sources */,
+				7E5B56952A4C211C006B1D37 /* MemoHeaderView.swift in Sources */,
+				7E49677E2AD539F700786EB0 /* Memo.swift in Sources */,
 				7E3D07C22A1FD9A500115E8B /* AppDelegate.swift in Sources */,
 				7E55E93F2A2B702100E4A22E /* CommunityController.swift in Sources */,
 				7E22BC152A29A04900499BB4 /* UIView.swift in Sources */,
@@ -1143,8 +1147,6 @@
 				7E4967872AD5507600786EB0 /* JobFairModel.swift in Sources */,
 				7E62A8AC2A72413700DB29DF /* FirebaseManager.swift in Sources */,
 				7E5971D12D8DB36B00E6BB11 /* BankRetirementSavingController.swift in Sources */,
-				7E5971CC2D8DB36B00E6BB11 /* BankRetirementCell.swift in Sources */,
-				7E5971CF2D8DB36B00E6BB11 /* BankBasicSavingController.swift in Sources */,
 				7E4967A02AE6C04300786EB0 /* LocalRepository.swift in Sources */,
 				7E49678B2AD550AE00786EB0 /* EmploymentModel.swift in Sources */,
 				7E49678F2AD57AFA00786EB0 /* ContestModel.swift in Sources */,
@@ -1162,7 +1164,6 @@
 			files = (
 				7E49679C2AE6BF4200786EB0 /* LocalVM.swift in Sources */,
 				7E4967942AD57B0400786EB0 /* CertificationModel.swift in Sources */,
-				7E5971CE2D8DB36B00E6BB11 /* BankBasicSavingController.swift in Sources */,
 				7E4967882AD5507600786EB0 /* JobFairModel.swift in Sources */,
 				7E4967A52AE6C05900786EB0 /* LocalRepositoryImpl.swift in Sources */,
 				7E5971D02D8DB36B00E6BB11 /* BankRetirementSavingController.swift in Sources */,
@@ -1171,7 +1172,6 @@
 				7E5971CB2D8AA57600E6BB11 /* DummySingleton.swift in Sources */,
 				7E3D07E32A1FD9A600115E8B /* PIPEUITests.swift in Sources */,
 				7E4967982AE6BF1B00786EB0 /* CalendarController.swift in Sources */,
-				7E5971CD2D8DB36B00E6BB11 /* BankRetirementCell.swift in Sources */,
 				7E4967902AD57AFA00786EB0 /* ContestModel.swift in Sources */,
 				7E49678C2AD550AE00786EB0 /* EmploymentModel.swift in Sources */,
 				7E4967A12AE6C04300786EB0 /* LocalRepository.swift in Sources */,

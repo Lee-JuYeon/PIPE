@@ -29,7 +29,7 @@ class MemoCell: UITableViewCell {
         textView.isScrollEnabled = true
         textView.isHidden = true
         textView.backgroundColor = .clear
-        textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        textView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
@@ -51,14 +51,14 @@ class MemoCell: UITableViewCell {
         contentView.addSubview(contentTextView)
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
             contentTextView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
             contentTextView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             contentTextView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            contentTextView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
+            contentTextView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
         ])
         
         // 초기 높이 제약 (축소 상태)
@@ -84,8 +84,8 @@ class MemoCell: UITableViewCell {
         contentTextView.isHidden = !isExpanded
         
         if isExpanded {
-            // 확장 상태
-            contentHeightConstraint?.constant = 150 // 적절한 높이로 조정
+            // 확장 상태 - 더 크게 설정 (200으로 확장)
+            contentHeightConstraint?.constant = 200
             contentTextView.isScrollEnabled = true
         } else {
             // 축소 상태

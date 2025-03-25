@@ -7,25 +7,108 @@
 
 import Foundation
 import RxSwift
+import CoreData
 
-class MemoRepositoryImpl : MemoRepository {
+
+class MemoRepositoryImpl: MemoRepository {
     
+    private let coreDataManager = MemoCoreDataManager.shared
+    
+    // 메모 조회
     func fetchMemos() -> Observable<[MemoModel]> {
         return Observable.create { observer in
-            // 더미 데이터 생성
-            let memos: [MemoModel] = [
-                MemoModel(id: UUID(), content: "첫 번째 메모\n여러 줄로 작성된 내용입니다.\n추가 설명도 포함됩니다."),
-                MemoModel(id: UUID(), content: "두 번째 메모\n이것은 짧은 메모입니다."),
-                MemoModel(id: UUID(), content: "장문의 메모\n여기에는 매우 긴 텍스트가 들어갈 수 있습니다.\n여러 줄에 걸쳐 작성된 메모의 예시입니다.\n내용이 매우 길어서 스크롤이 필요할 수 있습니다.\n이렇게 여러 줄의 텍스트를 포함할 수 있습니다.")
-            ]
+            let fetchRequest: NSFetchRequest<Memo> = Memo.fetchRequest()
+            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "updatedAt", ascending: false)]
             
-            // 데이터 방출
-            observer.onNext(memos)
+            do {
+                let memos = try self.coreDataManager.context.fetch(fetchRequest)
+                let memoModels = memos.compactMap { memo -> MemoModel? in
+                    guard let id = memo.id, let content = memo.content else { return nil }
+                    return MemoModel(id: id, content: content)
+                }
+                
+                observer.onNext(memoModels)
+                observer.onCompleted()
+            } catch {
+                observer.onError(error)
+            }
             
-            // 스트림 완료
-            observer.onCompleted()
+            return Disposables.create()
+        }
+    }
+    
+    // 메모 저장
+    func saveMemo(_ memo: MemoModel) -> Observable<MemoModel> {
+        return Observable.create { observer in
+            let context = self.coreDataManager.context
+            let newMemo = Memo(context: context)
             
-            // 구독 취소 시 정리 작업
+            newMemo.id = memo.id
+            newMemo.content = memo.content
+            newMemo.createdAt = Date()
+            newMemo.updatedAt = Date()
+            
+            do {
+                try context.save()
+                observer.onNext(memo)
+                observer.onCompleted()
+            } catch {
+                observer.onError(error)
+            }
+            
+            return Disposables.create()
+        }
+    }
+    
+    // 메모 업데이트
+    func updateMemo(_ memo: MemoModel) -> Observable<MemoModel> {
+        return Observable.create { observer in
+            let fetchRequest: NSFetchRequest<Memo> = Memo.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "id == %@", memo.id as CVarArg)
+            
+            do {
+                let results = try self.coreDataManager.context.fetch(fetchRequest)
+                if let memoToUpdate = results.first {
+                    memoToUpdate.content = memo.content
+                    memoToUpdate.updatedAt = Date()
+                    
+                    try self.coreDataManager.context.save()
+                    observer.onNext(memo)
+                    observer.onCompleted()
+                } else {
+                    let error = NSError(domain: "MemoRepository", code: 404, userInfo: [NSLocalizedDescriptionKey: "메모를 찾을 수 없습니다."])
+                    observer.onError(error)
+                }
+            } catch {
+                observer.onError(error)
+            }
+            
+            return Disposables.create()
+        }
+    }
+    
+    // 메모 삭제
+    func deleteMemo(id: UUID) -> Observable<Bool> {
+        return Observable.create { observer in
+            let fetchRequest: NSFetchRequest<Memo> = Memo.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+            
+            do {
+                let results = try self.coreDataManager.context.fetch(fetchRequest)
+                if let memoToDelete = results.first {
+                    self.coreDataManager.context.delete(memoToDelete)
+                    try self.coreDataManager.context.save()
+                    
+                    observer.onNext(true)
+                    observer.onCompleted()
+                } else {
+                    observer.onNext(false)
+                    observer.onCompleted()
+                }
+            } catch {
+                observer.onError(error)
+            }
+            
             return Disposables.create()
         }
     }
