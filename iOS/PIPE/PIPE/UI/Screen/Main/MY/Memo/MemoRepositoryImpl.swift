@@ -12,104 +12,51 @@ import CoreData
 
 class MemoRepositoryImpl: MemoRepository {
     
-    private let coreDataManager = MemoCoreDataManager.shared
+    private let coreManager: MemoCoreManager
+    private let disposeBag = DisposeBag()
     
-    // 메모 조회
+    init(coreManager: MemoCoreManager = MemoCoreManager.shared) {
+        self.coreManager = coreManager
+    }
+    
     func fetchMemos() -> Observable<[MemoModel]> {
-        return Observable.create { observer in
-            let fetchRequest: NSFetchRequest<Memo> = Memo.fetchRequest()
-            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "updatedAt", ascending: false)]
-            
-            do {
-                let memos = try self.coreDataManager.context.fetch(fetchRequest)
-                let memoModels = memos.compactMap { memo -> MemoModel? in
-                    guard let id = memo.id, let content = memo.content else { return nil }
-                    return MemoModel(id: id, content: content)
-                }
-                
-                observer.onNext(memoModels)
-                observer.onCompleted()
-            } catch {
-                observer.onError(error)
-            }
-            
-            return Disposables.create()
-        }
+        return coreManager.fetchMemos()
+            .do(onNext: { memos in
+                print("메모 \(memos.count)개 로드 완료")
+            })
     }
     
-    // 메모 저장
-    func saveMemo(_ memo: MemoModel) -> Observable<MemoModel> {
-        return Observable.create { observer in
-            let context = self.coreDataManager.context
-            let newMemo = Memo(context: context)
-            
-            newMemo.id = memo.id
-            newMemo.content = memo.content
-            newMemo.createdAt = Date()
-            newMemo.updatedAt = Date()
-            
-            do {
-                try context.save()
-                observer.onNext(memo)
-                observer.onCompleted()
-            } catch {
-                observer.onError(error)
-            }
-            
-            return Disposables.create()
-        }
+    func saveMemo(_ memo: MemoModel) -> Observable<Bool> {
+        return coreManager.saveMemo(memo)
     }
     
-    // 메모 업데이트
-    func updateMemo(_ memo: MemoModel) -> Observable<MemoModel> {
-        return Observable.create { observer in
-            let fetchRequest: NSFetchRequest<Memo> = Memo.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "id == %@", memo.id as CVarArg)
-            
-            do {
-                let results = try self.coreDataManager.context.fetch(fetchRequest)
-                if let memoToUpdate = results.first {
-                    memoToUpdate.content = memo.content
-                    memoToUpdate.updatedAt = Date()
-                    
-                    try self.coreDataManager.context.save()
-                    observer.onNext(memo)
-                    observer.onCompleted()
-                } else {
-                    let error = NSError(domain: "MemoRepository", code: 404, userInfo: [NSLocalizedDescriptionKey: "메모를 찾을 수 없습니다."])
-                    observer.onError(error)
-                }
-            } catch {
-                observer.onError(error)
-            }
-            
-            return Disposables.create()
-        }
-    }
-    
-    // 메모 삭제
     func deleteMemo(id: UUID) -> Observable<Bool> {
-        return Observable.create { observer in
-            let fetchRequest: NSFetchRequest<Memo> = Memo.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
-            
-            do {
-                let results = try self.coreDataManager.context.fetch(fetchRequest)
-                if let memoToDelete = results.first {
-                    self.coreDataManager.context.delete(memoToDelete)
-                    try self.coreDataManager.context.save()
-                    
-                    observer.onNext(true)
-                    observer.onCompleted()
-                } else {
-                    observer.onNext(false)
-                    observer.onCompleted()
-                }
-            } catch {
-                observer.onError(error)
+        return coreManager.deleteMemo(id: id)
+    }
+    
+    func updateMemo(_ memo: MemoModel) -> Observable<Bool> {
+        return coreManager.updateMemo(memo)
+    }
+    
+    // 일괄 처리 기능
+    func batchUpdateMemos(_ memos: [MemoModel]) -> Observable<Bool> {
+        let observables = memos.map { updateMemo($0) }
+        
+        return Observable.merge(observables)
+            .toArray()
+            .map { results in
+                return results.allSatisfy { $0 }
             }
-            
-            return Disposables.create()
-        }
+            .asObservable()
+    }
+    
+    // 검색 기능
+    func searchMemos(query: String) -> Observable<[MemoModel]> {
+        return fetchMemos()
+            .map { memos in
+                return memos.filter { memo in
+                    memo.content.lowercased().contains(query.lowercased())
+                }
+            }
     }
 }

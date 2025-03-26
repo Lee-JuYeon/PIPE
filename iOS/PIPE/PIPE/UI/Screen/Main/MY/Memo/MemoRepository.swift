@@ -10,7 +10,7 @@ import RxSwift
 
 protocol MemoRepository {
     func fetchMemos() -> Observable<[MemoModel]>
-    func saveMemo(_ memo: MemoModel) -> Observable<MemoModel>
-    func updateMemo(_ memo: MemoModel) -> Observable<MemoModel>
+    func saveMemo(_ memo: MemoModel) -> Observable<Bool>
     func deleteMemo(id: UUID) -> Observable<Bool>
+    func updateMemo(_ memo: MemoModel) -> Observable<Bool>
 }

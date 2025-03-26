@@ -97,3 +97,4 @@ class MemoCell: UITableViewCell {
         contentView.layoutIfNeeded()
     }
 }
+                                                                                                    

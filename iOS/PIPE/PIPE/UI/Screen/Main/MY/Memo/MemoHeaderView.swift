@@ -10,6 +10,7 @@ import RxSwift
 class MemoHeaderView: UITableViewHeaderFooterView, UITextViewDelegate {
     static let identifier = "MemoHeaderView"
     
+
     // 컨텐츠 관리를 위한 클로저
     var onSaveButtonTap: ((String) -> Void)?
     var onCancelButtonTap: (() -> Void)?
