@@ -4,21 +4,20 @@
 //
 //  Created by C.A.V.S.S on 2023/06/28.
 //
+
 import UIKit
 import RxSwift
 
-class MemoHeaderView: UITableViewHeaderFooterView, UITextViewDelegate {
+class MemoHeaderView: UITableViewHeaderFooterView {
     static let identifier = "MemoHeaderView"
     
-
     // 컨텐츠 관리를 위한 클로저
     var onSaveButtonTap: ((String) -> Void)?
     var onCancelButtonTap: (() -> Void)?
     var onAddButtonTap: (() -> Void)?
-    var onTextChanged: ((String) -> Void)?
     
     // UI 요소
-    let titleButton: UIButton = {
+    private let titleButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("새 메모 추가", for: .normal)
         button.contentHorizontalAlignment = .left
@@ -40,13 +39,16 @@ class MemoHeaderView: UITableViewHeaderFooterView, UITextViewDelegate {
         let textView = UITextView()
         textView.font = .systemFont(ofSize: 16)
         textView.isScrollEnabled = true
-        textView.text = "" // 명시적으로 빈 문자열로 초기화
+        textView.text = ""
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.textContainerInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        textView.backgroundColor = .clear
         return textView
     }()
     
     private var textViewContainerHeightConstraint: NSLayoutConstraint?
+    private var textViewTopConstraint: NSLayoutConstraint?
+    private var textViewBottomConstraint: NSLayoutConstraint?
     private var isExpanded = false
     
     override init(reuseIdentifier: String?) {
@@ -59,31 +61,43 @@ class MemoHeaderView: UITableViewHeaderFooterView, UITextViewDelegate {
     }
     
     private func setupViews() {
-        contentView.addSubview(textViewContainer)
+        contentView.backgroundColor = .systemBackground
+        
         contentView.addSubview(titleButton)
+        contentView.addSubview(textViewContainer)
         textViewContainer.addSubview(textView)
         
         NSLayoutConstraint.activate([
-            // titleButton은 항상 상단에 고정되도록 설정
-            titleButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            // 버튼 제약 조건
             titleButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+            titleButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            titleButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
-            // textViewContainer는 titleButton 아래에 배치
+            // 컨테이너 제약 조건
             textViewContainer.topAnchor.constraint(equalTo: titleButton.bottomAnchor, constant: 12),
             textViewContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            textViewContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            textViewContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
-            
-            // textView 제약 조건
-            textView.topAnchor.constraint(equalTo: textViewContainer.topAnchor),
-            textView.leadingAnchor.constraint(equalTo: textViewContainer.leadingAnchor),
-            textView.trailingAnchor.constraint(equalTo: textViewContainer.trailingAnchor),
-            textView.bottomAnchor.constraint(equalTo: textViewContainer.bottomAnchor),
+            textViewContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
         ])
         
-        // 초기 높이 제약 (0으로 설정하여 숨김)
+        // 텍스트뷰 제약 조건 (별도 저장하여 나중에 활성화/비활성화 가능)
+        textViewTopConstraint = textView.topAnchor.constraint(equalTo: textViewContainer.topAnchor, constant: 8)
+        textViewBottomConstraint = textView.bottomAnchor.constraint(equalTo: textViewContainer.bottomAnchor, constant: -8)
+        
+        NSLayoutConstraint.activate([
+            textViewTopConstraint!,
+            textView.leadingAnchor.constraint(equalTo: textViewContainer.leadingAnchor, constant: 8),
+            textView.trailingAnchor.constraint(equalTo: textViewContainer.trailingAnchor, constant: -8),
+            textViewBottomConstraint!
+        ])
+        
+        // 컨테이너 초기 높이 설정 (0으로 시작)
         textViewContainerHeightConstraint = textViewContainer.heightAnchor.constraint(equalToConstant: 0)
         textViewContainerHeightConstraint?.isActive = true
+        
+        // 컨테이너 하단 여백
+        let bottomConstraint = textViewContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
+        bottomConstraint.priority = .defaultHigh
+        bottomConstraint.isActive = true
         
         // 버튼 액션 설정
         titleButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
@@ -94,77 +108,91 @@ class MemoHeaderView: UITableViewHeaderFooterView, UITextViewDelegate {
     
     @objc private func buttonTapped() {
         if isExpanded {
-            // 확장된 상태
+            // 현재 확장된 상태
             if textView.text.count == 0 {
-                // 텍스트가 비어있으면 취소
+                // 텍스트가 없으면 취소
                 onCancelButtonTap?()
-                animateView() // 직접 축소 메서드 호출 추가
+                collapseView()
             } else {
                 // 텍스트가 있으면 저장
                 onSaveButtonTap?(textView.text)
+                collapseView()
             }
         } else {
-            // 접힌 상태 - 확장
+            // 현재 접힌 상태 - 확장
             onAddButtonTap?()
+            expandView()
         }
     }
     
-    // expandView 함수에서 초기 텍스트 설정
-    func animateView() {
-        if isExpanded { // collapse
-            isExpanded = false
-            textViewContainerHeightConstraint?.constant = 0 // 축소 시 높이
-            titleButton.setTitle("새 메모 추가", for: .normal)
-            textView.resignFirstResponder()
-            textView.text = ""
-            
-            // 애니메이션
-            UIView.animate(withDuration: 0.3, animations: {
-                self.contentView.layoutIfNeeded()
-            }) { _ in
-                self.textViewContainer.isHidden = true
-            }
-        }else { // expanded
-            isExpanded = true
-            textViewContainer.isHidden = false
-            textViewContainerHeightConstraint?.constant = 150 // 확장 시 높이
-            textView.text = "" // 명시적으로 빈 문자열로 초기화
-            updateButtonTitle() // 버튼 제목 업데이트
-            textView.becomeFirstResponder()
-            
-            // 애니메이션
-            UIView.animate(withDuration: 0.3) {
-                self.contentView.layoutIfNeeded()
-            }
-        }
+    func expandView() {
+        // 먼저 컨테이너를 표시
+        textViewContainer.isHidden = false
+        
+        // 텍스트뷰 제약 조건 활성화
+        textViewTopConstraint?.isActive = true
+        textViewBottomConstraint?.isActive = true
+        
+        // 상태 및 높이 업데이트
+        isExpanded = true
+        textViewContainerHeightConstraint?.constant = 150
+        updateButtonTitle()
+        
+        // 애니메이션으로 변경 적용
+        UIView.animate(withDuration: 0.3, animations: {
+            self.layoutIfNeeded()
+        }, completion: { _ in
+            self.textView.becomeFirstResponder()
+        })
     }
     
+    func collapseView() {
+        // 먼저 키보드 내림
+        textView.resignFirstResponder()
+        
+        // 버튼 타이틀 업데이트
+        titleButton.setTitle("새 메모 추가", for: .normal)
+        
+        // 컨테이너 높이를 0으로 설정
+        textViewContainerHeightConstraint?.constant = 0
+        
+        // 애니메이션으로 변경 적용
+        UIView.animate(withDuration: 0.3, animations: {
+            self.layoutIfNeeded()
+        }, completion: { _ in
+            // 애니메이션 완료 후 컨테이너 숨김
+            self.textViewContainer.isHidden = true
+            self.textView.text = ""
+            self.isExpanded = false
+            
+            // 텍스트뷰 제약 조건 비활성화
+            self.textViewTopConstraint?.isActive = false
+            self.textViewBottomConstraint?.isActive = false
+        })
+    }
     
     func updateButtonTitle() {
-        print("Memo, MemoHeaderView // 텍스트 길이: \(textView.text.count)") // 길이 확인용 로깅
         if isExpanded {
-            let newTitle = textView.text.count == 0 ? "메모 취소" : "메모 저장"
-            print("Memo, MemoHeaderView // 버튼 타이틀 설정: \(newTitle)")
-            titleButton.setTitle(newTitle, for: .normal)
+            titleButton.setTitle(textView.text.isEmpty ? "메모 취소" : "메모 저장", for: .normal)
         } else {
             titleButton.setTitle("새 메모 추가", for: .normal)
         }
     }
     
-    func getText() -> String {
-        return textView.text
+    // 내부 레이아웃 변경 시 호출되는 메서드 재정의
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        // 높이가 0일 때는 텍스트뷰 제약 조건 비활성화
+        if textViewContainerHeightConstraint?.constant == 0 {
+            textViewTopConstraint?.isActive = false
+            textViewBottomConstraint?.isActive = false
+        }
     }
-    
-    func clearText() {
-        textView.text = ""
-    }
-    
+}
+
+extension MemoHeaderView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        updateButtonTitle()
-        onTextChanged?(textView.text)
-    }
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
         updateButtonTitle()
     }
 }

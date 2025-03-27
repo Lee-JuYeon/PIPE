@@ -7,8 +7,6 @@
 
 import Foundation
 import RxSwift
-import CoreData
-
 
 class MemoRepositoryImpl: MemoRepository {
     

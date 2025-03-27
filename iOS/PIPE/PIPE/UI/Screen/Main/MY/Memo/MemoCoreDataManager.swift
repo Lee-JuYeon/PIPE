@@ -47,7 +47,7 @@ class MemoCoreManager {
     private func saveToStorage() -> Observable<Bool> {
         return Observable.create { [weak self] observer in
             guard let self = self else {
-                observer.onError(MemoError.storageError("인스턴스 없음"))
+                observer.onError(NSError(domain: "MemoManager", code: 1, userInfo: [NSLocalizedDescriptionKey: "인스턴스 없음"]))
                 return Disposables.create()
             }
             
@@ -57,7 +57,7 @@ class MemoCoreManager {
                 observer.onNext(true)
                 observer.onCompleted()
             } catch {
-                observer.onError(MemoError.storageError("저장 실패: \(error)"))
+                observer.onError(error)
             }
             
             return Disposables.create()
@@ -71,7 +71,7 @@ class MemoCoreManager {
     func saveMemo(_ memo: MemoModel) -> Observable<Bool> {
         return Observable.create { [weak self] observer in
             guard let self = self else {
-                observer.onError(MemoError.storageError("인스턴스 없음"))
+                observer.onError(NSError(domain: "MemoManager", code: 1, userInfo: [NSLocalizedDescriptionKey: "인스턴스 없음"]))
                 return Disposables.create()
             }
             
@@ -99,7 +99,7 @@ class MemoCoreManager {
     func deleteMemo(id: UUID) -> Observable<Bool> {
         return Observable.create { [weak self] observer in
             guard let self = self else {
-                observer.onError(MemoError.storageError("인스턴스 없음"))
+                observer.onError(NSError(domain: "MemoManager", code: 1, userInfo: [NSLocalizedDescriptionKey: "인스턴스 없음"]))
                 return Disposables.create()
             }
             
@@ -122,7 +122,7 @@ class MemoCoreManager {
     func updateMemo(_ memo: MemoModel) -> Observable<Bool> {
         return Observable.create { [weak self] observer in
             guard let self = self else {
-                observer.onError(MemoError.storageError("인스턴스 없음"))
+                observer.onError(NSError(domain: "MemoManager", code: 1, userInfo: [NSLocalizedDescriptionKey: "인스턴스 없음"]))
                 return Disposables.create()
             }
             
@@ -139,7 +139,7 @@ class MemoCoreManager {
                     })
                     .disposed(by: self.disposeBag)
             } else {
-                observer.onError(MemoError.notFound("해당 ID의 메모 없음"))
+                observer.onError(NSError(domain: "MemoManager", code: 2, userInfo: [NSLocalizedDescriptionKey: "해당 ID의 메모 없음"]))
             }
             
             return Disposables.create()

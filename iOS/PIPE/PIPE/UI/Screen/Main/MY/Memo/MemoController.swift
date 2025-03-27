@@ -4,11 +4,10 @@
 //
 //  Created by C.A.V.S.S on 2023/05/31.
 //
-
 import UIKit
 import RxSwift
 
-class MemoController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class MemoController: UIViewController {
     private var vm: MemoVM?
     private var tableView: UITableView!
     private let disposeBag = DisposeBag()
@@ -35,19 +34,19 @@ class MemoController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func setupMemoView() {
         title = "메모"
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         
         // 테이블 뷰 설정
-        tableView = UITableView(frame: .zero, style: .plain)
+        tableView = UITableView(frame: .zero, style: .grouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(MemoCell.self, forCellReuseIdentifier: MemoCell.identifier)
         tableView.register(MemoHeaderView.self, forHeaderFooterViewReuseIdentifier: MemoHeaderView.identifier)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.estimatedRowHeight = 100
-        tableView.rowHeight = 100
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedSectionHeaderHeight = 60
-        tableView.sectionHeaderHeight = 60 // 기본 헤더 높이 설정
+        tableView.sectionHeaderHeight = UITableView.automaticDimension
         tableView.separatorStyle = .none
         tableView.backgroundColor = .systemBackground
         
@@ -83,9 +82,10 @@ class MemoController: UIViewController, UITableViewDelegate, UITableViewDataSour
             })
             .disposed(by: disposeBag)
     }
-    
-    // MARK: - UITableViewDataSource
-    
+}
+
+// MARK: - UITableViewDataSource, UITableViewDelegate
+extension MemoController: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -113,37 +113,31 @@ class MemoController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return cell
     }
     
-    // MARK: - UITableViewDelegate
-    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: MemoHeaderView.identifier) as? MemoHeaderView else {
             return nil
         }
         
         // 새 메모 추가 버튼 클릭
-        headerView.onAddButtonTap = { [weak self, weak headerView] in
-            guard let self = self, let headerView = headerView else { return }
-            self.headerExpanded = true
-            headerView.expandView()
-            self.tableView.beginUpdates()
-            self.tableView.endUpdates()
+        headerView.onAddButtonTap = { [weak self] in
+            self?.headerExpanded = true
+            self?.tableView.beginUpdates()
+            self?.tableView.endUpdates()
         }
         
         // 저장 버튼 클릭
-        headerView.onSaveButtonTap = { [weak self, weak headerView] text in
-            guard let self = self, let headerView = headerView else { return }
+        headerView.onSaveButtonTap = { [weak self] text in
+            guard let self = self else { return }
             self.vm?.addMemo(content: text)
             self.headerExpanded = false
-            headerView.collapseView()
             self.tableView.beginUpdates()
             self.tableView.endUpdates()
         }
         
         // 취소 버튼 클릭
-        headerView.onCancelButtonTap = { [weak self, weak headerView] in
-            guard let self = self, let headerView = headerView else { return }
+        headerView.onCancelButtonTap = { [weak self] in
+            guard let self = self else { return }
             self.headerExpanded = false
-            headerView.collapseView()
             self.tableView.beginUpdates()
             self.tableView.endUpdates()
         }
@@ -152,7 +146,7 @@ class MemoController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return headerExpanded ? 230 : 60 // 확장/축소 상태에 따라 높이 조정
+        return headerExpanded ? 230 : 60
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
