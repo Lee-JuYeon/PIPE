@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Foundation
 
 protocol MemoVMDelegate: AnyObject {
     func didUpdateMemos(memos: [MemoModel])

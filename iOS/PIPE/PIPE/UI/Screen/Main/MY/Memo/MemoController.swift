@@ -46,11 +46,12 @@ class MemoController: UIViewController {
         tableView.register(MemoHeaderView.self, forHeaderFooterViewReuseIdentifier: MemoHeaderView.identifier)
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.estimatedRowHeight = 100
+        tableView.estimatedRowHeight = 60
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedSectionHeaderHeight = 60
         tableView.sectionHeaderHeight = UITableView.automaticDimension
-        tableView.separatorStyle = .none
+        tableView.separatorStyle = .singleLine
+        tableView.separatorColor = .lightGray  // 밑줄 색상 설정
         tableView.backgroundColor = .systemBackground
         
         // 뷰 추가
@@ -179,7 +180,7 @@ extension MemoController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return (expandedIndexPath == indexPath) ? UITableView.automaticDimension : 100
+        return (expandedIndexPath == indexPath) ? UITableView.automaticDimension : 60
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

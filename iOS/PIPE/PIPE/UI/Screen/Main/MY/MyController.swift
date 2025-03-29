@@ -44,11 +44,11 @@ class MyController : UIViewController {
     private var notificationController : NotificationController? = nil
     private func setUI(){
         memoController = MemoController()
-        calendarController = CalendarController(setVM: myVM)
+        calendarController = CalendarController()
         notificationController = NotificationController(setVM: myVM)
         let controllerList : [UIViewController] = [
             memoController ?? MemoController(),
-            calendarController ?? CalendarController(setVM: myVM),
+            calendarController ?? CalendarController(),
             notificationController ?? NotificationController(setVM: myVM)
         ]
         setTabLayout(controllerList: controllerList)
@@ -71,7 +71,10 @@ class MyController : UIViewController {
         setVM()
         setUI()
        
+       
     }
+
+    
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

@@ -30,7 +30,7 @@ class MemoHeaderView: UITableViewHeaderFooterView {
         let button = UIButton(type: .system)
         button.setTitle("새 메모 추가", for: .normal)
         button.contentHorizontalAlignment = .left
-        button.titleLabel?.font = .boldSystemFont(ofSize: 18)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 20)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -39,7 +39,7 @@ class MemoHeaderView: UITableViewHeaderFooterView {
         let view = UIView()
         view.isHidden = true
         view.backgroundColor = .systemGray6
-        view.layer.cornerRadius = 8
+        view.layer.cornerRadius = 2
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -50,8 +50,8 @@ class MemoHeaderView: UITableViewHeaderFooterView {
         textView.isScrollEnabled = true
         textView.text = ""
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.textContainerInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        textView.backgroundColor = .clear
+        textView.textContainerInset = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+        textView.backgroundColor = .white
         return textView
     }()
     
@@ -68,7 +68,7 @@ class MemoHeaderView: UITableViewHeaderFooterView {
     }
     
     private func setupViews() {
-        contentView.backgroundColor = .systemBackground
+        contentView.backgroundColor = .systemGray6
         
         contentView.addSubview(titleButton)
         contentView.addSubview(textViewContainer)
@@ -76,20 +76,20 @@ class MemoHeaderView: UITableViewHeaderFooterView {
         
         NSLayoutConstraint.activate([
             // 버튼 제약 조건
-            titleButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+            titleButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 2),
             titleButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             titleButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
             // 컨테이너 제약 조건
-            textViewContainer.topAnchor.constraint(equalTo: titleButton.bottomAnchor, constant: 12),
-            textViewContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            textViewContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            textViewContainer.topAnchor.constraint(equalTo: titleButton.bottomAnchor, constant: 2),
+            textViewContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
+            textViewContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
             
             // 텍스트뷰 제약 조건 - 수정됨!
-            textView.topAnchor.constraint(equalTo: textViewContainer.topAnchor, constant: 8),
-            textView.leadingAnchor.constraint(equalTo: textViewContainer.leadingAnchor, constant: 8),
-            textView.trailingAnchor.constraint(equalTo: textViewContainer.trailingAnchor, constant: -8),
-            textView.bottomAnchor.constraint(equalTo: textViewContainer.bottomAnchor, constant: -8)
+            textView.topAnchor.constraint(equalTo: textViewContainer.topAnchor, constant: 2),
+            textView.leadingAnchor.constraint(equalTo: textViewContainer.leadingAnchor, constant: 4),
+            textView.trailingAnchor.constraint(equalTo: textViewContainer.trailingAnchor, constant: -4),
+            textView.bottomAnchor.constraint(equalTo: textViewContainer.bottomAnchor, constant: -4)
         ])
         
         // 컨테이너 초기 높이 설정 (0으로 시작)
@@ -97,7 +97,7 @@ class MemoHeaderView: UITableViewHeaderFooterView {
         textViewContainerHeightConstraint?.isActive = true
         
         // 컨테이너 하단 여백
-        let bottomConstraint = textViewContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
+        let bottomConstraint = textViewContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -2)
         bottomConstraint.priority = .defaultHigh
         bottomConstraint.isActive = true
         
