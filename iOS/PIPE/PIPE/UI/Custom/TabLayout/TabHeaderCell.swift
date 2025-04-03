@@ -42,7 +42,7 @@ class TabHeaderCell : UICollectionViewCell {
     private func setupViews() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(underlineView)
-        self.backgroundColor = .clear
+        self.backgroundColor = UIColor(named: "BackgroundColour")
 
         let height : CGFloat = 2
         NSLayoutConstraint.activate([
