@@ -8,12 +8,19 @@
 import Foundation
 import UIKit
 
-class CalendarController: UIViewController {
-    
+class CalendarController: UIViewController, CalendarViewModelDelegate {
+   
+    private var viewModel: CalendarViewModel!
+   
     // 현재 표시하는 달
     private var currentDate = Date()
     
-    // CalendarView 인스턴스 추가
+    private let calendarWidgetListView : CalendarWIgetListView = {
+        let view = CalendarWIgetListView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private let calendarView: CalendarView = {
         let view = CalendarView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -31,71 +38,68 @@ class CalendarController: UIViewController {
         super.viewDidLoad()
         setupUI()
         
+        // ViewModel 설정
+        setupViewModel()
+        
+        // 초기 데이터 로드
+        loadInitialData()
+        
         // 첫 로드 시 현재 날짜 설정
         calendarView.setDate(currentDate)
         
         // 날짜 선택 콜백 설정
         calendarView.onDateSelected = { [weak self] date, events in
-            
+            self?.handleDateSelected(date, events: events)
+        }
+                
+        // 일정 선택 콜백 설정
+        scheduleListView.onEventSelected = { [weak self] eventID in
+           
         }
         
-        scheduleListView.onEventSelected = { [weak self] event in
-            
-        }
+        // 일정 추가 버튼 콜백 설정
         scheduleListView.onAddButtonTapped = { [weak self] in
             
         }
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self)
+    private func setupViewModel() {
+        // Repository 생성
+        let repository = CalendarRepository()
+        
+        // ViewModel 생성 및 Delegate 설정
+        viewModel = CalendarViewModel(repository: repository)
+        viewModel.delegate = self
+        
+        calendarView.setViewModel(viewModel)
+        calendarWidgetListView.configure(viewModel: viewModel)
     }
+    
+    private func loadInitialData() {
+        // 현재 달의 이벤트 로드
+        viewModel.fetchEventsForMonth(Date())
+        
+        // 오늘 날짜 선택
+        calendarView.setSelectedDate(Date())
+    }
+        
+       
     
     private func setupUI() {
         view.backgroundColor = .systemBackground
         
-        let headerView = UIView()
-        headerView.translatesAutoresizingMaskIntoConstraints = false
-        
-//        view.addSubview(headerView)
-//        headerView.addSubview(monthLabel)
-//        headerView.addSubview(previousButton)
-//        headerView.addSubview(nextButton)
-//        headerView.addSubview(addScheduleButton)
-//        headerView.addSubview(todayButton)
+        view.addSubview(calendarWidgetListView)
         view.addSubview(calendarView)
         view.addSubview(scheduleListView)
         
         NSLayoutConstraint.activate([
-            // 헤더 뷰 제약조건
-//            headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-//            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//            headerView.heightAnchor.constraint(equalToConstant: 50),
-//            
-//            // 월 표시 라벨
-//            monthLabel.centerXAnchor.constraint(equalTo: headerView.centerXAnchor),
-//            monthLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
-//            
-//            // 이전 버튼
-//            previousButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
-//            previousButton.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 20),
-//            
-//            // 다음 버튼
-//            nextButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
-//            nextButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -20),
-//            
-//            // 오늘 버튼
-//            todayButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
-//            todayButton.trailingAnchor.constraint(equalTo: nextButton.leadingAnchor, constant: -20),
-//            
-//            // 일정 추가 버튼
-//            addScheduleButton.leadingAnchor.constraint(equalTo: previousButton.trailingAnchor, constant: 10),
-//            addScheduleButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
+            // 달력 위젯 뷰
+            calendarWidgetListView.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
+            calendarWidgetListView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            calendarWidgetListView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             
             // 달력 뷰
-//            calendarView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
-            calendarView.topAnchor.constraint(equalTo: view.topAnchor),
+            calendarView.topAnchor.constraint(equalTo: calendarWidgetListView.bottomAnchor),
             calendarView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
             calendarView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             
@@ -105,20 +109,51 @@ class CalendarController: UIViewController {
             scheduleListView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             scheduleListView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10),
         ])
+    }
+    
+  
+    private func handleDateSelected(_ date: Date, events: [CalendarEvent]) {
+       // ScheduleListView 업데이트
+       scheduleListView.updateEvents(events)
+       
+       // 상태 정보 업데이트 (필요한 경우 날짜 표시 등)
+       let dateFormatter = DateFormatter()
+       dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+       title = dateFormatter.string(from: date)
+    }
+  
+    
+    // Action methods
+    @objc private func goToPreviousMonth() {
+        viewModel.goToPreviousMonth()
+    }
+
+    @objc private func goToNextMonth() {
+        viewModel.goToNextMonth()
+    }
+
+    @objc private func goToToday() {
+        viewModel.goToToday()
+    }
+
+    // CalendarViewModelDelegate 메서드 구현에 추가
+    func didChangeMonth(date: Date) {
+        // 월 레이블 업데이트
+//        monthYearLabel.text = viewModel.getFormattedMonthString()
         
-        // 초기 월 표시 업데이트
-        updateMonthLabel()
+        // 달력 뷰 업데이트
+        calendarView.setDate(date)
+    }
+   
+    func didUpdateEvents(events: [CalendarEvent]) {
+    // asdf
     }
     
-  
-  
-    
-    // 현재 월 표시 업데이트
-    private func updateMonthLabel() {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM yyyy"
-//        monthLabel.text = formatter.string(from: currentDate)
+    func didCompleteEventOperation(success: Bool, operationType: CalendarViewModel.OperationType) {
+        // asdf
     }
+    
+
     
     
 //    @objc private func goToPreviousMonth() {

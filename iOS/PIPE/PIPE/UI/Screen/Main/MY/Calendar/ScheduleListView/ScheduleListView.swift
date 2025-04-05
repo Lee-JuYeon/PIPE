@@ -10,8 +10,8 @@ import UIKit
 
 class ScheduleListView : UIView {
     
-    private var events: [ScheduleEventModel] = []
-    var onEventSelected: ((ScheduleEventModel) -> Void)?
+    private var events: [CalendarEvent] = []
+    var onEventSelected: ((CalendarEvent) -> Void)?
     var onAddButtonTapped: (() -> Void)?
     
     private let scheduelListView: UICollectionView = {
@@ -55,6 +55,11 @@ class ScheduleListView : UIView {
         ])
     }
         
+    /// 이벤트 목록 업데이트
+    func updateEvents(_ events: [CalendarEvent]) {
+        self.events = events
+        scheduelListView.reloadData()
+    }
     
     private func setupCollectionView() {
         // 이벤트 셀 등록

@@ -17,16 +17,13 @@ class CalendarView: UIView {
     
     // 달력 데이터
     private var days: [Date] = []
-    private var eventsByDate: [Date: [ScheduleEventModel]] = [:]
+    private var eventsByDate: [Date: [CalendarEvent]] = [:]
     
-    // 선택된 날짜의 이벤트 목록
-    private var selectedDateEvents: [ScheduleEventModel] = []
-    
-    // 이벤트 캐시
-    private var eventsCache: [ScheduleEventModel] = []
+    // ViewModel
+    private var viewModel: CalendarViewModel?
     
     // 날짜 선택 콜백
-    var onDateSelected: ((Date, [ScheduleEventModel]) -> Void)?
+    var onDateSelected: ((Date, [CalendarEvent]) -> Void)?
     
     // MARK: - UI 요소
     private lazy var calendarView: UICollectionView = {
@@ -57,15 +54,16 @@ class CalendarView: UIView {
         return cv
     }()
     
-    // MARK: - 초기화
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
+        setupViewModel()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupUI()
+        setupViewModel()
     }
     
     // MARK: - UI 설정
@@ -89,12 +87,73 @@ class CalendarView: UIView {
         layoutIfNeeded()
     }
     
+    // ViewModel 설정
+    func setViewModel(_ viewModel: CalendarViewModel) {
+        self.viewModel = viewModel
+        setupViewModel()
+    }
+    
+    private func setupViewModel() {
+        guard let viewModel = viewModel else { return }
+        
+        // ViewModel의 이벤트 업데이트 감지
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleEventsUpdated(_:)),
+            name: Notification.Name("CalendarEventsUpdated"),
+            object: nil
+        )
+        
+        // 초기 데이터 로드
+        viewModel.fetchEventsForMonth(currentDate)
+    }
+    
+    @objc private func handleEventsUpdated(_ notification: Notification) {
+        if let events = notification.userInfo?["events"] as? [CalendarEvent] {
+            updateCalendarWithEvents(events)
+        }
+    }
+    
+    private func updateCalendarWithEvents(_ events: [CalendarEvent]) {
+        // 이벤트를 날짜별로 그룹화
+        eventsByDate = groupEventsByDate(events)
+        
+        // 컬렉션 뷰 리로드
+        DispatchQueue.main.async {
+            self.calendarView.reloadData()
+        }
+    }
+    
+    private func groupEventsByDate(_ events: [CalendarEvent]) -> [Date: [CalendarEvent]] {
+        var eventsByDate: [Date: [CalendarEvent]] = [:]
+        
+        for event in events {
+            guard let eventDate = event.startDate else { continue }
+            
+            // 날짜 시간 부분 제거 (일자만 비교)
+            let dayStart = calendar.startOfDay(for: eventDate)
+            
+            // 해당 날짜에 이벤트 추가
+            if var dateEvents = eventsByDate[dayStart] {
+                dateEvents.append(event)
+                eventsByDate[dayStart] = dateEvents
+            } else {
+                eventsByDate[dayStart] = [event]
+            }
+        }
+        
+        return eventsByDate
+    }
+    
     // MARK: - 공개 메서드
     
     /// 날짜 설정 및 달력 리로드
     func setDate(_ date: Date) {
         currentDate = date
         reloadCalendar()
+        
+        // ViewModel에 선택한 월 업데이트
+        viewModel?.fetchEventsForMonth(date)
     }
     
     /// 현재 표시 중인 날짜 반환
@@ -107,17 +166,6 @@ class CalendarView: UIView {
         return selectedDate
     }
     
-    /// 이벤트 설정
-    func setEvents(_ events: [ScheduleEventModel]) {
-        eventsCache = events
-        reloadCalendar()
-    }
-    
-    /// 현재 이벤트 목록 반환
-    func getEvents() -> [ScheduleEventModel] {
-        return eventsCache
-    }
-    
     /// 선택된 날짜 설정
     func setSelectedDate(_ date: Date?) {
         selectedDate = date
@@ -128,8 +176,9 @@ class CalendarView: UIView {
     }
     
     /// 특정 날짜의 이벤트 가져오기
-    func getEventsForDate(_ date: Date) -> [ScheduleEventModel] {
-        return eventsCache.filter { isSameDay(date1: $0.date, date2: date) }
+    func getEventsForDate(_ date: Date) -> [CalendarEvent] {
+        let dayStart = calendar.startOfDay(for: date)
+        return eventsByDate[dayStart] ?? []
     }
     
     /// 현재 월의 모든 날짜 가져오기
@@ -141,7 +190,6 @@ class CalendarView: UIView {
     func reloadCalendar() {
         // 날짜 데이터 가져오기
         days = daysInMonth(date: currentDate)
-        eventsByDate = getEventsGroupedByDate(for: currentDate)
         
         // 컬렉션 뷰 레이아웃 업데이트
         updateCollectionViewLayout()
@@ -236,76 +284,35 @@ class CalendarView: UIView {
         return calendar.isDate(date1, inSameDayAs: date2)
     }
     
-    /// 날짜 형식 설정
-    private func formatDate(_ date: Date, format: String = "yyyy-MM-dd") -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = format
-        return formatter.string(from: date)
-    }
-    
-    /// 월 이름 가져오기
-    private func monthName(date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM yyyy"
-        return formatter.string(from: date)
-    }
-    
-    /// 날짜에서 일(day) 구하기
-    private func dayFromDate(_ date: Date) -> Int {
-        return calendar.component(.day, from: date)
-    }
-    
-    /// 날짜에 대한 이벤트 그룹 생성
-    private func getEventsGroupedByDate(for date: Date) -> [Date: [ScheduleEventModel]] {
-        let components = calendar.dateComponents([.year, .month], from: date)
-        guard let firstDayOfMonth = calendar.date(from: components),
-              let range = calendar.range(of: .day, in: .month, for: firstDayOfMonth) else {
-            return [:]
-        }
-        
-        var eventsByDate: [Date: [ScheduleEventModel]] = [:]
-        
-        for day in 1...range.count {
-            if let date = calendar.date(byAdding: .day, value: day - 1, to: firstDayOfMonth) {
-                let dayEvents = getEventsForDate(date)
-                if !dayEvents.isEmpty {
-                    eventsByDate[date] = dayEvents
-                }
-            }
-        }
-        
-        return eventsByDate
-    }
-    
     // 컬렉션 뷰 레이아웃 업데이트
     private func updateCollectionViewLayout() {
         if let layout = calendarView.collectionViewLayout as? UICollectionViewFlowLayout {
-               let width = calendarView.frame.width / 7
-               let height = width // 정사각형 셀로 가정 (1:1 비율)
-               layout.itemSize = CGSize(width: width, height: height)
-               
-               // 헤더 사이즈도 업데이트
-               layout.headerReferenceSize = CGSize(width: calendarView.frame.width, height: 30)
-               
-               calendarView.collectionViewLayout.invalidateLayout()
-           }
+            let width = calendarView.frame.width / 7
+            let height = width // 정사각형 셀로 가정 (1:1 비율)
+            layout.itemSize = CGSize(width: width, height: height)
+            
+            // 헤더 사이즈도 업데이트
+            layout.headerReferenceSize = CGSize(width: calendarView.frame.width, height: 30)
+            
+            calendarView.collectionViewLayout.invalidateLayout()
+        }
     }
     
     /// 특정 날짜의 이벤트 업데이트 및 알림
     private func updateEventTable(for date: Date) {
         selectedDate = date
-        selectedDateEvents = getEventsForDate(date)
-        onDateSelected?(date, selectedDateEvents)
+        let selectedEvents = getEventsForDate(date)
+        
+        // ViewModel에 선택된 날짜 업데이트
+        viewModel?.setSelectedDate(date)
+        
+        // 콜백 호출
+        onDateSelected?(date, selectedEvents)
     }
     
     /// 요일 이름 배열 가져오기
     private func getWeekdaySymbols() -> [String] {
         return ["일", "월", "화", "수", "목", "금", "토"]
-    }
-    
-    /// 해당 요일이 주말인지 확인
-    private func isWeekend(_ weekday: Int) -> Bool {
-        return weekday == 0 || weekday == 6 // 0:일요일, 6:토요일
     }
     
     /// 요일에 맞는 색상 가져오기
@@ -316,6 +323,10 @@ class CalendarView: UIView {
         default: return .label         // 평일
         }
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 }
 
 extension CalendarView: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -324,7 +335,7 @@ extension CalendarView: UICollectionViewDataSource, UICollectionViewDelegate, UI
         return 1
     }
     
-    // 아이탬 갯수
+    // 아이템 갯수
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return days.count
     }
@@ -340,7 +351,7 @@ extension CalendarView: UICollectionViewDataSource, UICollectionViewDelegate, UI
         let isToday = isToday(date: date)
         
         // 이 날짜의 이벤트 가져오기
-        let events = eventsByDate.filter { isSameDay(date1: $0.key, date2: date) }.flatMap { $0.value }
+        let events = getEventsForDate(date)
         
         // 요일 계산 (0: 일요일, 6: 토요일)
         let weekday = calendar.component(.weekday, from: date) - 1
@@ -348,7 +359,7 @@ extension CalendarView: UICollectionViewDataSource, UICollectionViewDelegate, UI
         // 선택된 날짜인지 확인
         let isSelected = selectedDate != nil && isSameDay(date1: date, date2: selectedDate!)
         
-        cell.configure(date: date, isCurrentMonth: isCurrentMonth, isToday: isToday, events: events, weekday: weekday, isSelected: isSelected)
+        cell.configure(with: date, events: events, isCurrentMonth: isCurrentMonth, isToday: isToday, isSelected: isSelected, weekday: weekday)
         
         return cell
     }
@@ -386,7 +397,7 @@ extension CalendarView: UICollectionViewDataSource, UICollectionViewDelegate, UI
         }
     }
     
-    // 아이템 높이
+    // 아이템 크기
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = collectionView.frame.width / 7
         let height = (collectionView.frame.height - 30) / 6 // 헤더 높이 고려
