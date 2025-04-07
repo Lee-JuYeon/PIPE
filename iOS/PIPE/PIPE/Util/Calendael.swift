@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CalendarModel : Codable, Hashable {
+struct Calendael : Codable, Hashable {
     let startDate : String
     let endDate : String
     let simpleMemo : String

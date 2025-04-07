@@ -112,7 +112,7 @@ class CalendarController: UIViewController, CalendarViewModelDelegate {
     }
     
   
-    private func handleDateSelected(_ date: Date, events: [CalendarEvent]) {
+    private func handleDateSelected(_ date: Date, events: [CalendarModel]) {
        // ScheduleListView 업데이트
        scheduleListView.updateEvents(events)
        
@@ -145,7 +145,7 @@ class CalendarController: UIViewController, CalendarViewModelDelegate {
         calendarView.setDate(date)
     }
    
-    func didUpdateEvents(events: [CalendarEvent]) {
+    func didUpdateEvents(events: [CalendarModel]) {
     // asdf
     }
     

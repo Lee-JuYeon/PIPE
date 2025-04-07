@@ -17,13 +17,13 @@ class CalendarView: UIView {
     
     // 달력 데이터
     private var days: [Date] = []
-    private var eventsByDate: [Date: [CalendarEvent]] = [:]
+    private var eventsByDate: [Date: [CalendarModel]] = [:]
     
     // ViewModel
     private var viewModel: CalendarViewModel?
     
     // 날짜 선택 콜백
-    var onDateSelected: ((Date, [CalendarEvent]) -> Void)?
+    var onDateSelected: ((Date, [CalendarModel]) -> Void)?
     
     // MARK: - UI 요소
     private lazy var calendarView: UICollectionView = {
@@ -109,12 +109,12 @@ class CalendarView: UIView {
     }
     
     @objc private func handleEventsUpdated(_ notification: Notification) {
-        if let events = notification.userInfo?["events"] as? [CalendarEvent] {
+        if let events = notification.userInfo?["events"] as? [CalendarModel] {
             updateCalendarWithEvents(events)
         }
     }
     
-    private func updateCalendarWithEvents(_ events: [CalendarEvent]) {
+    private func updateCalendarWithEvents(_ events: [CalendarModel]) {
         // 이벤트를 날짜별로 그룹화
         eventsByDate = groupEventsByDate(events)
         
@@ -123,12 +123,12 @@ class CalendarView: UIView {
             self.calendarView.reloadData()
         }
     }
-    
-    private func groupEventsByDate(_ events: [CalendarEvent]) -> [Date: [CalendarEvent]] {
-        var eventsByDate: [Date: [CalendarEvent]] = [:]
+    private func groupEventsByDate(_ events: [CalendarModel]) -> [Date: [CalendarModel]] {
+        var eventsByDate: [Date: [CalendarModel]] = [:]
         
         for event in events {
-            guard let eventDate = event.startDate else { continue }
+            // startDate는 non-optional이므로 바로 사용
+            let eventDate = event.startDate
             
             // 날짜 시간 부분 제거 (일자만 비교)
             let dayStart = calendar.startOfDay(for: eventDate)
@@ -144,7 +144,6 @@ class CalendarView: UIView {
         
         return eventsByDate
     }
-    
     // MARK: - 공개 메서드
     
     /// 날짜 설정 및 달력 리로드
@@ -176,7 +175,7 @@ class CalendarView: UIView {
     }
     
     /// 특정 날짜의 이벤트 가져오기
-    func getEventsForDate(_ date: Date) -> [CalendarEvent] {
+    func getEventsForDate(_ date: Date) -> [CalendarModel] {
         let dayStart = calendar.startOfDay(for: date)
         return eventsByDate[dayStart] ?? []
     }

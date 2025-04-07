@@ -82,22 +82,20 @@ class ScheduleEventCell: UICollectionViewCell {
            dateLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
            dateLabel.bottomAnchor.constraint(lessThanOrEqualTo: containerView.bottomAnchor, constant: -8)
        ])
-   }
+    }
    
-   func configure(with event: CalendarEvent) {
-       titleLabel.text = event.title
-       
-       if let startDate = event.startDate {
-           let dateFormatter = DateFormatter()
-           dateFormatter.dateStyle = .medium
-           dateLabel.text = dateFormatter.string(from: startDate)
-       } else {
-           dateLabel.text = ""
-       }
-       
-       colorIndicator.backgroundColor = getColorForEvent(colorIndex: Int(event.colorIndex))
-   }
-   
+    func configure(with event: CalendarModel) {
+        titleLabel.text = event.title
+        
+        // startDate는 이제 non-optional이므로 직접 사용
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateLabel.text = dateFormatter.string(from: event.startDate)
+        
+        colorIndicator.backgroundColor = getColorForEvent(colorIndex: event.colorIndex)
+    }
+    
+    
    private func getColorForEvent(colorIndex: Int) -> UIColor {
        switch colorIndex {
        case 0: return .systemBlue

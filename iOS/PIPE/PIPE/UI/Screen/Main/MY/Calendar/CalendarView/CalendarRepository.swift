@@ -5,30 +5,29 @@
 //  Created by Jupond on 4/4/25.
 //
 
-// CalendarRepository.swift
 import Foundation
 
 protocol CalendarRepositoryDelegate: AnyObject {
-    func didUpdateEvents(events: [CalendarEvent])
-    func didSaveEvent(event: CalendarEvent, success: Bool)
-    func didDeleteEvent(eventID: UUID?, success: Bool)
-    func didUpdateEvent(event: CalendarEvent, success: Bool)
+    func didUpdateEvents(events: [CalendarModel])
+    func didSaveEvent(event: CalendarModel, success: Bool)
+    func didDeleteEvent(eventID: UUID, success: Bool)
+    func didUpdateEvent(event: CalendarModel, success: Bool)
 }
 
 extension CalendarRepositoryDelegate {
-    func didUpdateEvents(events: [CalendarEvent]) {}
-    func didSaveEvent(event: CalendarEvent, success: Bool) {}
-    func didDeleteEvent(eventID: UUID?, success: Bool) {}
-    func didUpdateEvent(event: CalendarEvent, success: Bool) {}
+    func didUpdateEvents(events: [CalendarModel]) {}
+    func didSaveEvent(event: CalendarModel, success: Bool) {}
+    func didDeleteEvent(eventID: UUID, success: Bool) {}
+    func didUpdateEvent(event: CalendarModel, success: Bool) {}
 }
 
 class CalendarRepository {
     
-    private let coreDataManager: CalendarCoreDataManager
+    private let calendarManager: CalendarManager
     weak var delegate: CalendarRepositoryDelegate?
     
-    init(coreDataManager: CalendarCoreDataManager = .shared) {
-        self.coreDataManager = coreDataManager
+    init(calendarManager: CalendarManager = .shared) {
+        self.calendarManager = calendarManager
         
         // NotificationCenter 옵저버 등록
         setupNotificationObservers()
@@ -39,7 +38,7 @@ class CalendarRepository {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleEventsUpdated(_:)),
-            name: CalendarCoreDataManager.NotificationNames.eventsUpdated,
+            name: CalendarManager.NotificationNames.eventsUpdated,
             object: nil
         )
         
@@ -47,7 +46,7 @@ class CalendarRepository {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleEventSaved(_:)),
-            name: CalendarCoreDataManager.NotificationNames.eventSaved,
+            name: CalendarManager.NotificationNames.eventSaved,
             object: nil
         )
         
@@ -55,7 +54,7 @@ class CalendarRepository {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleEventDeleted(_:)),
-            name: CalendarCoreDataManager.NotificationNames.eventDeleted,
+            name: CalendarManager.NotificationNames.eventDeleted,
             object: nil
         )
         
@@ -63,20 +62,20 @@ class CalendarRepository {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleEventUpdated(_:)),
-            name: CalendarCoreDataManager.NotificationNames.eventUpdated,
+            name: CalendarManager.NotificationNames.eventUpdated,
             object: nil
         )
     }
     
     // 알림 처리 메서드들
     @objc private func handleEventsUpdated(_ notification: Notification) {
-        if let events = notification.userInfo?["events"] as? [CalendarEvent] {
+        if let events = notification.userInfo?["events"] as? [CalendarModel] {
             delegate?.didUpdateEvents(events: events)
         }
     }
     
     @objc private func handleEventSaved(_ notification: Notification) {
-        if let event = notification.userInfo?["event"] as? CalendarEvent,
+        if let event = notification.userInfo?["event"] as? CalendarModel,
            let success = notification.userInfo?["success"] as? Bool {
             delegate?.didSaveEvent(event: event, success: success)
         }
@@ -90,7 +89,7 @@ class CalendarRepository {
     }
     
     @objc private func handleEventUpdated(_ notification: Notification) {
-        if let event = notification.userInfo?["event"] as? CalendarEvent,
+        if let event = notification.userInfo?["event"] as? CalendarModel,
            let success = notification.userInfo?["success"] as? Bool {
             delegate?.didUpdateEvent(event: event, success: success)
         }
@@ -101,16 +100,21 @@ class CalendarRepository {
         NotificationCenter.default.removeObserver(self)
     }
     
-    // MARK: - Public API
+    // MARK: - 공개 API
     
-    // 이벤트 목록 가져오기
-    func fetchEvents() -> [CalendarEvent] {
-        return coreDataManager.fetchEvents()
+    // 모든 이벤트 목록 가져오기
+    func fetchEvents() -> [CalendarModel] {
+        return calendarManager.fetchEvents()
     }
     
     // 특정 날짜 범위의 이벤트 가져오기
-    func fetchEvents(from startDate: Date, to endDate: Date) -> [CalendarEvent] {
-        return coreDataManager.fetchEvents(from: startDate, to: endDate)
+    func fetchEvents(from startDate: Date, to endDate: Date) -> [CalendarModel] {
+        return calendarManager.fetchEvents(from: startDate, to: endDate)
+    }
+    
+    // 특정 날짜의 이벤트 가져오기
+    func fetchEvents(for date: Date) -> [CalendarModel] {
+        return calendarManager.fetchEvents(for: date)
     }
     
     // 이벤트 저장하기
@@ -121,7 +125,7 @@ class CalendarRepository {
                    colorIndex: Int = 0,
                    isAllDay: Bool = false,
                    completion: ((Bool) -> Void)? = nil) {
-        coreDataManager.saveEvent(
+        calendarManager.addEvent(
             title: title,
             startDate: startDate,
             endDate: endDate,
@@ -133,12 +137,38 @@ class CalendarRepository {
     }
     
     // 이벤트 업데이트하기
-    func updateEvent(_ event: CalendarEvent, completion: ((Bool) -> Void)? = nil) {
-        coreDataManager.updateEvent(event, completion: completion)
+    func updateEvent(id: UUID,
+                     title: String? = nil,
+                     startDate: Date? = nil,
+                     endDate: Date? = nil,
+                     notes: String? = nil,
+                     colorIndex: Int? = nil,
+                     isAllDay: Bool? = nil,
+                     completion: ((Bool) -> Void)? = nil) {
+        calendarManager.updateEvent(
+            id: id,
+            title: title,
+            startDate: startDate,
+            endDate: endDate,
+            notes: notes,
+            colorIndex: colorIndex,
+            isAllDay: isAllDay,
+            completion: completion
+        )
     }
     
     // 이벤트 삭제하기
-    func deleteEvent(_ event: CalendarEvent, completion: ((Bool) -> Void)? = nil) {
-        coreDataManager.deleteEvent(event, completion: completion)
+    func deleteEvent(id: UUID, completion: ((Bool) -> Void)? = nil) {
+        calendarManager.deleteEvent(id: id, completion: completion)
+    }
+    
+    // ID로 이벤트 찾기
+    func findEvent(byID id: UUID) -> CalendarModel? {
+        return calendarManager.findEvent(byID: id)
+    }
+    
+    // 모든 이벤트 삭제
+    func clearAllEvents(completion: ((Bool) -> Void)? = nil) {
+        calendarManager.clearAllEvents(completion: completion)
     }
 }

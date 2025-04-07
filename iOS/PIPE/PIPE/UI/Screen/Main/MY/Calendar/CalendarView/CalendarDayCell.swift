@@ -14,7 +14,7 @@ class CalendarDayCell: UICollectionViewCell {
     
     // MARK: - 속성
     private var date: Date?
-    private var events: [CalendarEvent] = []
+    private var events: [CalendarModel] = []
     private var isCurrentMonth: Bool = true
     private var isToday: Bool = false
     private var isSelect: Bool = false
@@ -97,7 +97,7 @@ class CalendarDayCell: UICollectionViewCell {
     }
     
     // MARK: - 데이터 설정
-    func configure(with date: Date, events: [CalendarEvent], isCurrentMonth: Bool, isToday: Bool, isSelected: Bool = false, weekday: Int = 0) {
+    func configure(with date: Date, events: [CalendarModel], isCurrentMonth: Bool, isToday: Bool, isSelected: Bool = false, weekday: Int = 0) {
         self.date = date
         self.events = events
         self.isCurrentMonth = isCurrentMonth
@@ -242,7 +242,7 @@ class CalendarEventIndicatorCell: UITableViewCell {
         ])
     }
     
-    func configure(with event: CalendarEvent) {
+    func configure(with event: CalendarModel) {
         titleLabel.text = event.title
         
         // 이벤트 색상 설정

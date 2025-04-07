@@ -6,10 +6,11 @@
 //
 
 import Foundation
+
 protocol CalendarViewModelDelegate: AnyObject {
-    func didUpdateEvents(events: [CalendarEvent])
+    func didUpdateEvents(events: [CalendarModel])
     func didCompleteEventOperation(success: Bool, operationType: CalendarViewModel.OperationType)
-    func didChangeMonth(date: Date) // 월 변경 이벤트를 알리기 위한 메서드 추가
+    func didChangeMonth(date: Date) // 월 변경 이벤트를 알리기 위한 메서드
 }
 
 class CalendarViewModel {
@@ -21,7 +22,7 @@ class CalendarViewModel {
     }
     
     private let repository: CalendarRepository
-    private var events: [CalendarEvent] = []
+    private var events: [CalendarModel] = []
     private var selectedDate: Date = Date()
     private var currentMonth: Date = Date() // 현재 표시 중인 월
     
@@ -42,17 +43,8 @@ class CalendarViewModel {
     }
     
     // 선택된 날짜의 이벤트 조회
-    func getEventsForSelectedDate() -> [CalendarEvent] {
-        let calendar = Calendar.current
-        
-        // 날짜만 비교 (시간 무시)
-        let startOfDay = calendar.startOfDay(for: selectedDate)
-        let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
-        
-        return events.filter { event in
-            guard let eventDate = event.startDate else { return false }
-            return eventDate >= startOfDay && eventDate < endOfDay
-        }
+    func getEventsForSelectedDate() -> [CalendarModel] {
+        return repository.fetchEvents(for: selectedDate)
     }
     
     // 월별 이벤트 조회
@@ -83,26 +75,12 @@ class CalendarViewModel {
     
     // 특정 날짜의 이벤트 존재 여부
     func hasEvents(for date: Date) -> Bool {
-        let calendar = Calendar.current
-        let startOfDay = calendar.startOfDay(for: date)
-        let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
-        
-        return events.contains { event in
-            guard let eventDate = event.startDate else { return false }
-            return eventDate >= startOfDay && eventDate < endOfDay
-        }
+        return !repository.fetchEvents(for: date).isEmpty
     }
     
     // 특정 날짜의 이벤트 목록
-    func getEvents(for date: Date) -> [CalendarEvent] {
-        let calendar = Calendar.current
-        let startOfDay = calendar.startOfDay(for: date)
-        let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
-        
-        return events.filter { event in
-            guard let eventDate = event.startDate else { return false }
-            return eventDate >= startOfDay && eventDate < endOfDay
-        }
+    func getEvents(for date: Date) -> [CalendarModel] {
+        return repository.fetchEvents(for: date)
     }
     
     // 이벤트 추가
@@ -124,8 +102,22 @@ class CalendarViewModel {
     }
     
     // 이벤트 수정
-    func updateEvent(_ event: CalendarEvent) {
-        repository.updateEvent(event) { [weak self] success in
+    func updateEvent(id: UUID,
+                     title: String? = nil,
+                     startDate: Date? = nil,
+                     endDate: Date? = nil,
+                     notes: String? = nil,
+                     colorIndex: Int? = nil,
+                     isAllDay: Bool? = nil) {
+        repository.updateEvent(
+            id: id,
+            title: title,
+            startDate: startDate,
+            endDate: endDate,
+            notes: notes,
+            colorIndex: colorIndex,
+            isAllDay: isAllDay
+        ) { [weak self] success in
             self?.delegate?.didCompleteEventOperation(success: success, operationType: .update)
             
             // 이벤트 수정 후 현재 월의 이벤트 다시 불러오기
@@ -136,8 +128,8 @@ class CalendarViewModel {
     }
     
     // 이벤트 삭제
-    func deleteEvent(_ event: CalendarEvent) {
-        repository.deleteEvent(event) { [weak self] success in
+    func deleteEvent(id: UUID) {
+        repository.deleteEvent(id: id) { [weak self] success in
             self?.delegate?.didCompleteEventOperation(success: success, operationType: .delete)
             
             // 이벤트 삭제 후 현재 월의 이벤트 다시 불러오기
@@ -185,20 +177,20 @@ class CalendarViewModel {
 
 // MARK: - CalendarRepositoryDelegate
 extension CalendarViewModel: CalendarRepositoryDelegate {
-    func didUpdateEvents(events: [CalendarEvent]) {
+    func didUpdateEvents(events: [CalendarModel]) {
         self.events = events
         delegate?.didUpdateEvents(events: events)
     }
     
-    func didSaveEvent(event: CalendarEvent, success: Bool) {
+    func didSaveEvent(event: CalendarModel, success: Bool) {
         delegate?.didCompleteEventOperation(success: success, operationType: .save)
     }
     
-    func didDeleteEvent(eventID: UUID?, success: Bool) {
+    func didDeleteEvent(eventID: UUID, success: Bool) {
         delegate?.didCompleteEventOperation(success: success, operationType: .delete)
     }
     
-    func didUpdateEvent(event: CalendarEvent, success: Bool) {
+    func didUpdateEvent(event: CalendarModel, success: Bool) {
         delegate?.didCompleteEventOperation(success: success, operationType: .update)
     }
 }

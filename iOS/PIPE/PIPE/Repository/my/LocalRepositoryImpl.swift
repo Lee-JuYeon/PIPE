@@ -9,16 +9,23 @@ import Foundation
 import Combine
 
 class LocalRepositoryImpl : LocalRepository {
+    let dateFormatter = DateFormatter()
+    init(){
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+    }
+    
     func fetchCalendarEvents() -> Future<[CalendarModel], Error> {
-        return Future<[CalendarModel], Error> { promise in
+        return Future<[CalendarModel], Error> { [self] promise in
             // 실제 구현에서는 데이터 소스(예: 데이터베이스, API)에서 데이터를 가져와야 합니다.
             // 예시로 빈 배열이나 샘플 데이터를 반환합니다.
             let sampleEvents = [
                 CalendarModel(
-                    startDate: "2024-03-20",
-                    endDate: "2024-03-21",
-                    simpleMemo: "프로젝트 미팅",
-                    eventTitle: "팀 미팅"
+                    title: "팀 미팅",
+                    startDate: dateFormatter.date(from: "2024-03-20")!,
+                    endDate: dateFormatter.date(from: "2024-03-21")!,
+                    notes: "프로젝트 미팅",
+                    colorIndex: 0,
+                    isAllDay: false
                 )
             ]
             
