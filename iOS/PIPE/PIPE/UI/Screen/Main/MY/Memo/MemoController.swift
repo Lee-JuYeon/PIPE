@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import UIKit
 
 class MemoController: UIViewController {
     private var vm: MemoVM?
@@ -147,30 +146,8 @@ extension MemoController: UITableViewDataSource, UITableViewDelegate {
             return nil
         }
         
-        // 새 메모 추가 버튼 클릭
-        headerView.onAddButtonTap = { [weak self] in
-            self?.headerExpanded = true
-            self?.tableView.beginUpdates()
-            self?.tableView.endUpdates()
-        }
-        
-        // 저장 버튼 클릭
-        headerView.onSaveButtonTap = { [weak self] text in
-            guard let self = self, !text.isEmpty else { return }
-            self.headerExpanded = false
-            // 메모 추가는 MemoVM에 위임하고 UI 업데이트는 델리게이트에서 처리
-            self.vm?.addMemo(content: text)
-            self.tableView.beginUpdates()
-            self.tableView.endUpdates()
-        }
-        
-        // 취소 버튼 클릭
-        headerView.onCancelButtonTap = { [weak self] in
-            guard let self = self else { return }
-            self.headerExpanded = false
-            self.tableView.beginUpdates()
-            self.tableView.endUpdates()
-        }
+        // 델리게이트 설정
+        headerView.delegate = self
         
         return headerView
     }
@@ -255,6 +232,30 @@ extension MemoController: MemoVMDelegate {
             alert.addAction(UIAlertAction(title: "확인", style: .default))
             self.present(alert, animated: true)
         }
+    }
+}
+
+
+// MemoController 확장
+extension MemoController: MemoHeaderViewDelegate {
+    func memoHeaderViewDidTapAddButton(_ headerView: MemoHeaderView) {
+        headerExpanded = true
+        tableView.beginUpdates()
+        tableView.endUpdates()
+    }
+    
+    func memoHeaderViewDidTapSaveButton(_ headerView: MemoHeaderView, text: String) {
+        guard !text.isEmpty else { return }
+        headerExpanded = false
+        vm?.addMemo(content: text)
+        tableView.beginUpdates()
+        tableView.endUpdates()
+    }
+    
+    func memoHeaderViewDidTapCancelButton(_ headerView: MemoHeaderView) {
+        headerExpanded = false
+        tableView.beginUpdates()
+        tableView.endUpdates()
     }
 }
 

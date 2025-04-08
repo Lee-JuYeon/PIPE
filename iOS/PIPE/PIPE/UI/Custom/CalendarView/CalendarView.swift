@@ -231,26 +231,34 @@ class CalendarView: UIView {
         // 레이아웃 변경 후 intrinsicContentSize 갱신 알림
         invalidateIntrinsicContentSize()
     }
-    
-    // MARK: - 내부 헬퍼 메서드
-    
+        
     /// 현재 달의 모든 날짜 가져오기 (현재 달 + 이전/다음 달 일부)
     private func daysInMonth(date: Date) -> [Date] {
-        let range = calendar.range(of: .day, in: .month, for: date)!
-        let firstDay = calendar.date(from: calendar.dateComponents([.year, .month], from: date))!
+        guard let range = calendar.range(of: .day, in: .month, for: date),
+              let firstDay = calendar.date(from: calendar.dateComponents([.year, .month], from: date)) else {
+            // 유효하지 않은 날짜나 범위일 경우 빈 배열 반환
+            return []
+        }
         
         var days = [Date]()
+        
+        // 현재 달의 날짜들 추가
         for day in 1...range.count {
             if let date = calendar.date(byAdding: .day, value: day - 1, to: firstDay) {
                 days.append(date)
             }
         }
         
+        // 안전하게 처리: 배열이 비어있는 경우 추가 작업 무시
+        guard let firstDate = days.first else {
+            return days
+        }
+        
         // 첫 주의 이전 달 날짜 추가
-        let firstWeekday = calendar.component(.weekday, from: days.first!) - 1 // Calendar 요일: 1(일) ~ 7(토)
+        let firstWeekday = calendar.component(.weekday, from: firstDate) - 1 // Calendar 요일: 1(일) ~ 7(토)
         if firstWeekday > 0 {
             for i in 0..<firstWeekday {
-                if let date = calendar.date(byAdding: .day, value: -i - 1, to: days.first!) {
+                if let date = calendar.date(byAdding: .day, value: -(i + 1), to: firstDate) {
                     days.insert(date, at: 0)
                 }
             }
@@ -258,8 +266,11 @@ class CalendarView: UIView {
         
         // 마지막 주의 다음 달 날짜 추가 (총 셀 수가 42개가 되게 - 6주)
         while days.count < 42 {
-            if let date = calendar.date(byAdding: .day, value: 1, to: days.last!) {
+            guard let lastDate = days.last else { break }
+            if let date = calendar.date(byAdding: .day, value: 1, to: lastDate) {
                 days.append(date)
+            } else {
+                break // 날짜 추가 실패 시 루프 중단
             }
         }
         
@@ -286,14 +297,20 @@ class CalendarView: UIView {
     // 컬렉션 뷰 레이아웃 업데이트
     private func updateCollectionViewLayout() {
         if let layout = calendarView.collectionViewLayout as? UICollectionViewFlowLayout {
-            let width = calendarView.frame.width / 7
-            let height = width // 정사각형 셀로 가정 (1:1 비율)
-            layout.itemSize = CGSize(width: width, height: height)
+            // 프레임 너비가 유효한지 확인
+            let width = calendarView.frame.width
             
-            // 헤더 사이즈도 업데이트
-            layout.headerReferenceSize = CGSize(width: calendarView.frame.width, height: 30)
-            
-            calendarView.collectionViewLayout.invalidateLayout()
+            // 너비가 유효한 경우에만 레이아웃 업데이트
+            if width > 0 {
+                let cellWidth = width / 7
+                let height = cellWidth // 정사각형 셀로 가정
+                layout.itemSize = CGSize(width: cellWidth, height: height)
+                
+                // 헤더 사이즈도 업데이트
+                layout.headerReferenceSize = CGSize(width: width, height: 30)
+                
+                calendarView.collectionViewLayout.invalidateLayout()
+            }
         }
     }
     
@@ -398,8 +415,15 @@ extension CalendarView: UICollectionViewDataSource, UICollectionViewDelegate, UI
     
     // 아이템 크기
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = collectionView.frame.width / 7
-        let height = (collectionView.frame.height - 30) / 6 // 헤더 높이 고려
-        return CGSize(width: width, height: height)
+        let width = collectionView.frame.width
+            
+        // 너비가 유효한지 확인
+        if width <= 0 {
+            return CGSize(width: 1, height: 1) // 기본 최소값 설정
+        }
+        
+        let cellWidth = width / 7
+        let cellHeight = cellWidth // 정사각형 셀 유지
+        return CGSize(width: cellWidth, height: cellHeight)
     }
 }

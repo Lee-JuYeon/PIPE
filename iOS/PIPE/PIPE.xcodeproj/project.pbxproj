@@ -221,7 +221,7 @@
 		7E3D07DE2A1FD9A600115E8B /* PIPEUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PIPEUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E3D07E22A1FD9A600115E8B /* PIPEUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PIPEUITests.swift; sourceTree = "<group>"; };
 		7E3D07E42A1FD9A600115E8B /* PIPEUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PIPEUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		7E49677D2AD539F700786EB0 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Memo.swift; path = ../../Money/Bank/Memo.swift; sourceTree = "<group>"; };
+		7E49677D2AD539F700786EB0 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		7E4967812AD54E6A00786EB0 /* MemoRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoRepositoryImpl.swift; sourceTree = "<group>"; };
 		7E4967852AD5507600786EB0 /* JobFairModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobFairModel.swift; sourceTree = "<group>"; };
 		7E4967892AD550AE00786EB0 /* EmploymentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmploymentModel.swift; sourceTree = "<group>"; };
@@ -502,7 +502,7 @@
 		7E3D07F32A208ECC00115E8B /* Custom */ = {
 			isa = PBXGroup;
 			children = (
-				7E3D08072A216C4200115E8B /* Calendar */,
+				7E2E8E212D9E8471004EFE50 /* CalendarView */,
 				7E54CD4D2AB7BAE800B1C08D /* CustomModulerUI */,
 				7EC205F22A8F0304005F600A /* RangeSlider */,
 				7E5410382A89418600F27835 /* ScrollableStack */,
@@ -685,16 +685,13 @@
 		7E3D08062A216C3800115E8B /* Memo */ = {
 			isa = PBXGroup;
 			children = (
-				7E22BBDE2A23666200499BB4 /* MemoError.swift */,
 				7E22BC0C2A26ACAA00499BB4 /* MemoController.swift */,
 				7E5B569D2A4CBA8C006B1D37 /* MemoCell.swift */,
 				7E5B56942A4C211C006B1D37 /* MemoHeaderView.swift */,
 				7E22BBE22A23669500499BB4 /* MemoCoreDataManager.swift */,
 				7E4967812AD54E6A00786EB0 /* MemoRepositoryImpl.swift */,
-				7E5B56B32A4E69EC006B1D37 /* MemoRepository.swift */,
 				7E5B569B2A4CBA6C006B1D37 /* MemoModel.swift */,
 				7E5B569F2A4CBA9F006B1D37 /* MemoVM.swift */,
-				7E49677D2AD539F700786EB0 /* Memo.swift */,
 			);
 			path = Memo;
 			sourceTree = "<group>";
@@ -737,7 +734,6 @@
 			isa = PBXGroup;
 			children = (
 				7E2E8E262D9F3805004EFE50 /* ScheduleListView */,
-				7E2E8E212D9E8471004EFE50 /* CalendarView */,
 				7E4967952AE6BF1B00786EB0 /* CalendarController.swift */,
 				7E2E8E152D9E6472004EFE50 /* CalendarWIgetListView.swift */,
 			);
@@ -858,6 +854,10 @@
 		7E5971D22D8EF02A00E6BB11 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				7E22BBDE2A23666200499BB4 /* MemoError.swift */,
+				7E5B56B32A4E69EC006B1D37 /* MemoRepository.swift */,
+				7E49677D2AD539F700786EB0 /* Memo.swift */,
+				7E3D08072A216C4200115E8B /* Calendar */,
 				7E5B56AF2A4E69A3006B1D37 /* Calendael.swift */,
 			);
 			path = Util;

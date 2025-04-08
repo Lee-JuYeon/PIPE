@@ -21,8 +21,14 @@ class CalendarController: UIViewController, CalendarViewModelDelegate {
         return view
     }()
     
-    private let calendarView: CalendarView = {
-        let view = CalendarView()
+//    private let calendarView: CalendarView = {
+//        let view = CalendarView()
+//        view.translatesAutoresizingMaskIntoConstraints = false
+//        return view
+//    }()
+    
+    private let calendarView: UIView = {
+        let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -42,15 +48,23 @@ class CalendarController: UIViewController, CalendarViewModelDelegate {
         setupViewModel()
         
         // 초기 데이터 로드
-        loadInitialData()
+        setCalendarView()
         
-        // 첫 로드 시 현재 날짜 설정
-        calendarView.setDate(currentDate)
-        
-        // 날짜 선택 콜백 설정
-        calendarView.onDateSelected = { [weak self] date, events in
-            self?.handleDateSelected(date, events: events)
-        }
+    }
+    
+    private func setCalendarView(){
+//        // 오늘 날짜 선택
+//        calendarView.setSelectedDate(Date())
+//
+//        calendarView.setViewModel(viewModel)
+//        
+//        // 첫 로드 시 현재 날짜 설정
+//        calendarView.setDate(currentDate)
+//        
+//        // 날짜 선택 콜백 설정
+//        calendarView.onDateSelected = { [weak self] date, events in
+//            self?.handleDateSelected(date, events: events)
+//        }
                 
         // 일정 선택 콜백 설정
         scheduleListView.onEventSelected = { [weak self] eventID in
@@ -61,6 +75,10 @@ class CalendarController: UIViewController, CalendarViewModelDelegate {
         scheduleListView.onAddButtonTapped = { [weak self] in
             
         }
+        
+        calendarWidgetListView.configure(viewModel: viewModel)
+
+      
     }
     
     private func setupViewModel() {
@@ -71,19 +89,11 @@ class CalendarController: UIViewController, CalendarViewModelDelegate {
         viewModel = CalendarViewModel(repository: repository)
         viewModel.delegate = self
         
-        calendarView.setViewModel(viewModel)
-        calendarWidgetListView.configure(viewModel: viewModel)
-    }
-    
-    private func loadInitialData() {
         // 현재 달의 이벤트 로드
         viewModel.fetchEventsForMonth(Date())
         
-        // 오늘 날짜 선택
-        calendarView.setSelectedDate(Date())
     }
-        
-       
+
     
     private func setupUI() {
         view.backgroundColor = .systemBackground
@@ -142,7 +152,7 @@ class CalendarController: UIViewController, CalendarViewModelDelegate {
 //        monthYearLabel.text = viewModel.getFormattedMonthString()
         
         // 달력 뷰 업데이트
-        calendarView.setDate(date)
+//        calendarView.setDate(date)
     }
    
     func didUpdateEvents(events: [CalendarModel]) {

@@ -141,10 +141,6 @@ class MemoVM {
             delegate?.didCompleteMemoOperation(operationType: .delete, success: success)
         }
     }
-    
-    func searchMemos(query: String) -> [MemoModel] {
-        return memoRepository.searchMemos(query: query)
-    }
 }
 
 // MARK: - MemoRepositoryDelegate
