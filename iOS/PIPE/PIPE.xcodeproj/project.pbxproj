@@ -10,7 +10,7 @@
 		7E22BBDD2A21FF3D00499BB4 /* MoneyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E22BBDC2A21FF3D00499BB4 /* MoneyController.swift */; };
 		7E22BBDF2A23666200499BB4 /* MemoError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E22BBDE2A23666200499BB4 /* MemoError.swift */; };
 		7E22BBE12A23667B00499BB4 /* SupportController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E22BBE02A23667B00499BB4 /* SupportController.swift */; };
-		7E22BBE32A23669500499BB4 /* MemoCoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E22BBE22A23669500499BB4 /* MemoCoreDataManager.swift */; };
+		7E22BBE32A23669500499BB4 /* MemoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E22BBE22A23669500499BB4 /* MemoManager.swift */; };
 		7E22BBEF2A23735200499BB4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E22BBF12A23735200499BB4 /* Localizable.strings */; };
 		7E22BBF42A23B62600499BB4 /* EmploymentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E22BBF32A23B62600499BB4 /* EmploymentController.swift */; };
 		7E22BBF62A23B64C00499BB4 /* ContestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E22BBF52A23B64C00499BB4 /* ContestController.swift */; };
@@ -67,7 +67,7 @@
 		7E3D07D92A1FD9A600115E8B /* PIPETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3D07D82A1FD9A600115E8B /* PIPETests.swift */; };
 		7E3D07E32A1FD9A600115E8B /* PIPEUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3D07E22A1FD9A600115E8B /* PIPEUITests.swift */; };
 		7E3D07E52A1FD9A600115E8B /* PIPEUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3D07E42A1FD9A600115E8B /* PIPEUITestsLaunchTests.swift */; };
-		7E49677E2AD539F700786EB0 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E49677D2AD539F700786EB0 /* Memo.swift */; };
+		7E49677E2AD539F700786EB0 /* MemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E49677D2AD539F700786EB0 /* MemoView.swift */; };
 		7E4967822AD54E6A00786EB0 /* MemoRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4967812AD54E6A00786EB0 /* MemoRepositoryImpl.swift */; };
 		7E4967862AD5507600786EB0 /* JobFairModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4967852AD5507600786EB0 /* JobFairModel.swift */; };
 		7E4967872AD5507600786EB0 /* JobFairModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4967852AD5507600786EB0 /* JobFairModel.swift */; };
@@ -182,7 +182,7 @@
 		7E22BBDC2A21FF3D00499BB4 /* MoneyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyController.swift; sourceTree = "<group>"; };
 		7E22BBDE2A23666200499BB4 /* MemoError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoError.swift; sourceTree = "<group>"; };
 		7E22BBE02A23667B00499BB4 /* SupportController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportController.swift; sourceTree = "<group>"; };
-		7E22BBE22A23669500499BB4 /* MemoCoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoCoreDataManager.swift; sourceTree = "<group>"; };
+		7E22BBE22A23669500499BB4 /* MemoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoManager.swift; sourceTree = "<group>"; };
 		7E22BBF02A23735200499BB4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7E22BBF22A2373C000499BB4 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7E22BBF32A23B62600499BB4 /* EmploymentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmploymentController.swift; sourceTree = "<group>"; };
@@ -221,7 +221,7 @@
 		7E3D07DE2A1FD9A600115E8B /* PIPEUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PIPEUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E3D07E22A1FD9A600115E8B /* PIPEUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PIPEUITests.swift; sourceTree = "<group>"; };
 		7E3D07E42A1FD9A600115E8B /* PIPEUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PIPEUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		7E49677D2AD539F700786EB0 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
+		7E49677D2AD539F700786EB0 /* MemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoView.swift; sourceTree = "<group>"; };
 		7E4967812AD54E6A00786EB0 /* MemoRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoRepositoryImpl.swift; sourceTree = "<group>"; };
 		7E4967852AD5507600786EB0 /* JobFairModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobFairModel.swift; sourceTree = "<group>"; };
 		7E4967892AD550AE00786EB0 /* EmploymentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmploymentModel.swift; sourceTree = "<group>"; };
@@ -685,10 +685,11 @@
 		7E3D08062A216C3800115E8B /* Memo */ = {
 			isa = PBXGroup;
 			children = (
+				7E49677D2AD539F700786EB0 /* MemoView.swift */,
 				7E22BC0C2A26ACAA00499BB4 /* MemoController.swift */,
 				7E5B569D2A4CBA8C006B1D37 /* MemoCell.swift */,
 				7E5B56942A4C211C006B1D37 /* MemoHeaderView.swift */,
-				7E22BBE22A23669500499BB4 /* MemoCoreDataManager.swift */,
+				7E22BBE22A23669500499BB4 /* MemoManager.swift */,
 				7E4967812AD54E6A00786EB0 /* MemoRepositoryImpl.swift */,
 				7E5B569B2A4CBA6C006B1D37 /* MemoModel.swift */,
 				7E5B569F2A4CBA9F006B1D37 /* MemoVM.swift */,
@@ -856,7 +857,6 @@
 			children = (
 				7E22BBDE2A23666200499BB4 /* MemoError.swift */,
 				7E5B56B32A4E69EC006B1D37 /* MemoRepository.swift */,
-				7E49677D2AD539F700786EB0 /* Memo.swift */,
 				7E3D08072A216C4200115E8B /* Calendar */,
 				7E5B56AF2A4E69A3006B1D37 /* Calendael.swift */,
 			);
@@ -1175,7 +1175,7 @@
 				7E5B56C12A4E9753006B1D37 /* HomeController.swift in Sources */,
 				7E54CD4F2AB7BB0300B1C08D /* CustomModulerUI.swift in Sources */,
 				7E5B56A72A4E68C2006B1D37 /* NotificationController.swift in Sources */,
-				7E22BBE32A23669500499BB4 /* MemoCoreDataManager.swift in Sources */,
+				7E22BBE32A23669500499BB4 /* MemoManager.swift in Sources */,
 				7E55E9412A2C187400E4A22E /* CustomCalendarView.swift in Sources */,
 				7E4967862AD5507600786EB0 /* JobFairModel.swift in Sources */,
 				7E2E8E2C2D9F68C0004EFE50 /* CalendarManager.swift in Sources */,
@@ -1186,7 +1186,7 @@
 				7E55E9562A3890AA00E4A22E /* DropDownCell.swift in Sources */,
 				7E22BC0D2A26ACAA00499BB4 /* MemoController.swift in Sources */,
 				7E5B56952A4C211C006B1D37 /* MemoHeaderView.swift in Sources */,
-				7E49677E2AD539F700786EB0 /* Memo.swift in Sources */,
+				7E49677E2AD539F700786EB0 /* MemoView.swift in Sources */,
 				7E3D07C22A1FD9A500115E8B /* AppDelegate.swift in Sources */,
 				7E2E8E302D9F68E5004EFE50 /* CalendarRepository.swift in Sources */,
 				7E55E93F2A2B702100E4A22E /* CommunityController.swift in Sources */,

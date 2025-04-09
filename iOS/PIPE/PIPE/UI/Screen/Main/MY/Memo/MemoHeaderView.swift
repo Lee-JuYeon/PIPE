@@ -76,13 +76,7 @@ class MemoHeaderView: UITableViewHeaderFooterView {
             // 컨테이너 제약 조건
             textViewContainer.topAnchor.constraint(equalTo: titleButton.bottomAnchor, constant: 2),
             textViewContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
-            textViewContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
-            
-            // 텍스트뷰 제약 조건
-            textView.topAnchor.constraint(equalTo: textViewContainer.topAnchor, constant: 2),
-            textView.leadingAnchor.constraint(equalTo: textViewContainer.leadingAnchor, constant: 4),
-            textView.trailingAnchor.constraint(equalTo: textViewContainer.trailingAnchor, constant: -4),
-            textView.bottomAnchor.constraint(equalTo: textViewContainer.bottomAnchor, constant: -4)
+            textViewContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4)
         ])
         
         // 컨테이너 초기 높이 설정 (0으로 시작)
@@ -93,6 +87,21 @@ class MemoHeaderView: UITableViewHeaderFooterView {
         let bottomConstraint = textViewContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -2)
         bottomConstraint.priority = .defaultHigh
         bottomConstraint.isActive = true
+        
+        // 텍스트뷰와 컨테이너 사이의 제약 조건 - 컨테이너 높이가 0일 때는 적용되지 않도록 수정
+        let textViewTopConstraint = textView.topAnchor.constraint(equalTo: textViewContainer.topAnchor, constant: 2)
+        let textViewBottomConstraint = textView.bottomAnchor.constraint(equalTo: textViewContainer.bottomAnchor, constant: -4)
+        
+        // 우선 순위를 낮춰서 컨테이너 높이가 0일 때 충돌하지 않도록 함
+        textViewTopConstraint.priority = .defaultHigh
+        textViewBottomConstraint.priority = .defaultHigh
+        
+        NSLayoutConstraint.activate([
+            textViewTopConstraint,
+            textViewBottomConstraint,
+            textView.leadingAnchor.constraint(equalTo: textViewContainer.leadingAnchor, constant: 4),
+            textView.trailingAnchor.constraint(equalTo: textViewContainer.trailingAnchor, constant: -4)
+        ])
         
         // 버튼 액션 설정
         titleButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
@@ -122,7 +131,7 @@ class MemoHeaderView: UITableViewHeaderFooterView {
     }
     
     func expandView() {
-        // 먼저 컨테이너를 표시
+        // 먼저 컨테이너 표시 - 레이아웃 충돌 방지를 위해
         textViewContainer.isHidden = false
         
         // 상태 및 높이 업데이트
@@ -137,7 +146,7 @@ class MemoHeaderView: UITableViewHeaderFooterView {
             self.textView.becomeFirstResponder()
         })
     }
-    
+
     func collapseView() {
         // 먼저 키보드 내림
         textView.resignFirstResponder()
@@ -152,7 +161,7 @@ class MemoHeaderView: UITableViewHeaderFooterView {
         UIView.animate(withDuration: 0.3, animations: {
             self.contentView.layoutIfNeeded()
         }, completion: { _ in
-            // 애니메이션 완료 후 컨테이너 숨김
+            // 애니메이션 완료 후 컨테이너 숨김 - 레이아웃 충돌 방지
             self.textViewContainer.isHidden = true
             self.textView.text = ""
             self.isExpanded = false

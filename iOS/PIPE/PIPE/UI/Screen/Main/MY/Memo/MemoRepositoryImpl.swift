@@ -24,10 +24,10 @@ extension MemoRepositoryDelegate {
 
 class MemoRepositoryImpl {
     
-    private let coreManager: MemoCoreManager
+    private let coreManager: MemoManager
     weak var delegate: MemoRepositoryDelegate?
     
-    init(coreManager: MemoCoreManager = MemoCoreManager.shared) {
+    init(coreManager: MemoManager = MemoManager.shared) {
         self.coreManager = coreManager
         
         // NotificationCenter 옵저버 등록
@@ -39,7 +39,7 @@ class MemoRepositoryImpl {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleMemosUpdated(_:)),
-            name: MemoCoreManager.NotificationNames.memosUpdated,
+            name: MemoManager.NotificationNames.memosUpdated,
             object: nil
         )
         
@@ -47,7 +47,7 @@ class MemoRepositoryImpl {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleMemoSaved(_:)),
-            name: MemoCoreManager.NotificationNames.memoSaved,
+            name: MemoManager.NotificationNames.memoSaved,
             object: nil
         )
         
@@ -55,7 +55,7 @@ class MemoRepositoryImpl {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleMemoDeleted(_:)),
-            name: MemoCoreManager.NotificationNames.memoDeleted,
+            name: MemoManager.NotificationNames.memoDeleted,
             object: nil
         )
         
@@ -63,7 +63,7 @@ class MemoRepositoryImpl {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleMemoUpdated(_:)),
-            name: MemoCoreManager.NotificationNames.memoUpdated,
+            name: MemoManager.NotificationNames.memoUpdated,
             object: nil
         )
     }
