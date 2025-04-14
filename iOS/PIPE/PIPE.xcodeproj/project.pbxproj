@@ -502,6 +502,7 @@
 		7E3D07F32A208ECC00115E8B /* Custom */ = {
 			isa = PBXGroup;
 			children = (
+				7E3D08072A216C4200115E8B /* MemoView */,
 				7E2E8E212D9E8471004EFE50 /* CalendarView */,
 				7E54CD4D2AB7BAE800B1C08D /* CustomModulerUI */,
 				7EC205F22A8F0304005F600A /* RangeSlider */,
@@ -685,8 +686,15 @@
 		7E3D08062A216C3800115E8B /* Memo */ = {
 			isa = PBXGroup;
 			children = (
-				7E49677D2AD539F700786EB0 /* MemoView.swift */,
 				7E22BC0C2A26ACAA00499BB4 /* MemoController.swift */,
+			);
+			path = Memo;
+			sourceTree = "<group>";
+		};
+		7E3D08072A216C4200115E8B /* MemoView */ = {
+			isa = PBXGroup;
+			children = (
+				7E49677D2AD539F700786EB0 /* MemoView.swift */,
 				7E5B569D2A4CBA8C006B1D37 /* MemoCell.swift */,
 				7E5B56942A4C211C006B1D37 /* MemoHeaderView.swift */,
 				7E22BBE22A23669500499BB4 /* MemoManager.swift */,
@@ -694,15 +702,7 @@
 				7E5B569B2A4CBA6C006B1D37 /* MemoModel.swift */,
 				7E5B569F2A4CBA9F006B1D37 /* MemoVM.swift */,
 			);
-			path = Memo;
-			sourceTree = "<group>";
-		};
-		7E3D08072A216C4200115E8B /* Calendar */ = {
-			isa = PBXGroup;
-			children = (
-				7E55E9402A2C187400E4A22E /* CustomCalendarView.swift */,
-			);
-			path = Calendar;
+			path = MemoView;
 			sourceTree = "<group>";
 		};
 		7E3D08082A217F0100115E8B /* Community */ = {
@@ -855,10 +855,10 @@
 		7E5971D22D8EF02A00E6BB11 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				7E55E9402A2C187400E4A22E /* CustomCalendarView.swift */,
+				7E5B56AF2A4E69A3006B1D37 /* Calendael.swift */,
 				7E22BBDE2A23666200499BB4 /* MemoError.swift */,
 				7E5B56B32A4E69EC006B1D37 /* MemoRepository.swift */,
-				7E3D08072A216C4200115E8B /* Calendar */,
-				7E5B56AF2A4E69A3006B1D37 /* Calendael.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";

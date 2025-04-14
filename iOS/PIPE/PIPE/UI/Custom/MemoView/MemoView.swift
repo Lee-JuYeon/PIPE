@@ -136,7 +136,29 @@ extension MemoView: UITableViewDataSource, UITableViewDelegate {
         }
         
         let isExpanded = expandedIndexPath == indexPath
+        
+        // Calendar API를 사용하여 특정 날짜로 설정 (권장 방법)
+        let calendar = Calendar.current
+        let dateComponents = DateComponents(
+            year: 2025,
+            month: 4,
+            day: 17,
+            hour: 14,
+            minute: 0
+        )
+        let startDate = calendar.date(from: dateComponents)!
+        let endDate = startDate
+
+        let dummyCalendarEventModel = CalendarModel(
+            title: "sk강의",
+            startDate: startDate,
+            endDate: endDate,
+            notes: "면접강의",
+            colorIndex: 2,
+            isAllDay: false
+        )
         cell.configure(with: memos[indexPath.row], isExpanded: isExpanded)
+        cell.addEvent(calendarEvent: dummyCalendarEventModel)
         cell.delegate = self // 델리게이트 설정
         
         return cell
